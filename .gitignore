@@ -1,0 +1,17 @@
+# Photoshop sources (not used by the HTML page)
+*.psd
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log

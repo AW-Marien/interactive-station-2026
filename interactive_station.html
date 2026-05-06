@@ -1,0 +1,2770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analog Way - Product Catalog</title>
+    <style>
+        /* Modern CSS Variables for easy theming */
+        :root {
+            --primary-dark: #0A1A2F;
+            --primary-blue: #0066CC;
+            --accent-blue: #0080FF;
+            --aw-deep-blue: #002C5F;
+            --aw-cyan: #00B7D4;
+            --aw-coral: #FF4D5E;
+            --light-gray: #F5F7FA;
+            --medium-gray: #E0E5EC;
+            --dark-gray: #1F2937;
+            --text-gray: #5B6B7F;
+            --white: #FFFFFF;
+            --shadow-sm: 0 2px 4px rgba(10, 26, 47, 0.06);
+            --shadow-md: 0 4px 12px rgba(10, 26, 47, 0.10);
+            --shadow-lg: 0 12px 28px rgba(10, 26, 47, 0.18);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --brand-gradient: linear-gradient(135deg, var(--aw-deep-blue) 0%, var(--primary-blue) 50%, var(--aw-cyan) 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--white);
+            color: var(--dark-gray);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Modern Header Design */
+        .header {
+            background-color: var(--white);
+            border-bottom: 1px solid var(--medium-gray);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 72px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--primary-dark);
+        }
+
+        .logo-image { /* Style for the new logo image */
+            height: 40px;
+            width: auto;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .nav-button {
+            background: none;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--dark-gray);
+        }
+
+        .nav-button:hover {
+            background-color: var(--light-gray);
+        }
+
+        .nav-button.primary {
+            background-color: var(--primary-blue);
+            color: var(--white);
+        }
+
+        .nav-button.primary:hover {
+            background-color: var(--accent-blue);
+        }
+
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px 40px 24px; 
+            min-height: calc(100vh - 72px); 
+        }
+
+        /* View Animations */
+        .view {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .view.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Homepage Banner */
+        .home-banner {
+            width: 100vw;
+            margin-left: calc(-50vw + 50%);
+            height: 400px;
+            background-image: url('images/home.png');
+            background-size: cover;
+            /* Bias the visible window so the LED wall sits in the middle of the frame.
+               X stays low so the right-side Gemini watermark stays cropped on narrow
+               viewports; Y is raised to push the LED wall up in the visible area. */
+            background-position: 30% 45%;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+            padding: 20px;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        .home-banner::before { 
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.4); 
+            z-index: 1;
+        }
+
+        .home-banner-title, .home-banner-subtitle {
+            position: relative; 
+            z-index: 2;
+        }
+
+        .home-banner-title {
+            font-size: 48px;
+            font-weight: 600; 
+            letter-spacing: -1px;
+            margin-bottom: 16px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .home-banner-subtitle {
+            font-size: 20px;
+            font-weight: 300;
+            max-width: 700px; 
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+        }
+
+
+        /* Section Headers */
+        .section-header {
+            margin-top: 40px; 
+            margin-bottom: 25px; 
+        }
+        #home-view .section-header:first-of-type { 
+             margin-top: 0;
+        }
+
+
+        .section-title {
+            font-size: 32px; 
+            font-weight: 600; 
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+            color: var(--primary-dark);
+        }
+        
+        .subsection-title { /* For sub-groupings like Input/Output Cards */
+            font-size: 22px;
+            font-weight: 500;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            color: var(--dark-gray);
+            border-bottom: 1px solid var(--medium-gray);
+            padding-bottom: 8px;
+        }
+
+
+        .section-subtitle { 
+            font-size: 16px;
+            color: var(--text-gray);
+        }
+
+        /* Grid Layouts */
+        .products-grid { 
+            display: grid;
+            gap: 24px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        }
+
+        /* Modern Card Design */
+        .card {
+            background-color: var(--white);
+            border: 1px solid var(--medium-gray);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+            display: flex; 
+            flex-direction: column; 
+            height: 100%; 
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-blue);
+        }
+
+        .card-image-wrapper {
+            width: 100%;
+            height: 200px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden; 
+            position: relative; 
+            background-image: url('images/Fond-bleu-2024.jpg'); 
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .card-image-wrapper img {
+            display: block;
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain; 
+            padding: 10px; 
+            background-color: transparent; 
+        }
+        
+        .application-card .card-image-wrapper {
+             background-image: none;
+             background-color: var(--light-gray);
+        }
+
+        .application-card .card-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            padding:0;
+        }
+
+        /* Client logo mosaic for the "Our Clients" home card */
+        .client-logo-mosaic {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 1px;
+            background-color: var(--medium-gray);
+        }
+        .client-logo-mosaic-cell {
+            background-color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px;
+            overflow: hidden;
+        }
+        .client-logo-mosaic-cell img {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+        }
+
+        /* "No picture available" placeholder for missing product images */
+        .card-image-wrapper.no-image,
+        .product-image-main-wrapper.no-image,
+        .product-image-thumb-wrapper.no-image {
+            background-image: none;
+            background-color: var(--light-gray);
+            position: relative;
+        }
+        .card-image-wrapper.no-image img,
+        .product-image-main-wrapper.no-image img,
+        .product-image-thumb-wrapper.no-image img {
+            display: none;
+        }
+        .card-image-wrapper.no-image::after,
+        .product-image-main-wrapper.no-image::after,
+        .product-image-thumb-wrapper.no-image::after {
+            content: "No picture available";
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-gray);
+            font-size: 13px;
+            font-weight: 500;
+            font-style: italic;
+            text-align: center;
+            padding: 12px;
+            letter-spacing: 0.02em;
+        }
+        .product-image-main-wrapper.no-image {
+            min-height: 280px;
+        }
+
+
+        .card-content {
+            padding: 20px;
+            flex-grow: 1; 
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; 
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--primary-dark);
+        }
+
+        .card-subtitle { 
+            font-size: 14px;
+            color: var(--text-gray);
+            margin-bottom: 12px;
+        }
+        
+        /* Product Detail View */
+        .product-detail-container, .application-detail-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr; 
+            gap: 48px;
+            align-items: start;
+        }
+
+        .product-images {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        
+        .product-image-main-wrapper {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: url('images/Fond-bleu-2024.jpg');
+            background-size: cover;
+            background-position: center;
+            border-radius: 12px;
+            padding: 20px; 
+            border: 1px solid var(--medium-gray);
+            min-height: 300px; 
+        }
+
+        .product-image-main-wrapper img#product-detail-img-main { 
+            display: block;
+            max-width: 100%;
+            max-height: 450px; 
+            object-fit: contain;
+            cursor: zoom-in; 
+            background-color: transparent; 
+        }
+
+        .product-image-thumbnails {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 16px;
+        }
+
+        .product-image-thumb-wrapper {
+            width: 100%;
+            height: 120px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: url('images/Fond-bleu-2024.jpg');
+            background-size: cover;
+            background-position: center;
+            border-radius: 8px;
+            padding: 10px; 
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+        .product-image-thumb-wrapper img { 
+             display: block;
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            background-color: transparent;
+        }
+
+        .product-image-thumb-wrapper:hover,
+        .product-image-thumb-wrapper.active {
+            border-color: var(--primary-blue);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .product-info {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .product-title {
+            font-size: 32px;
+            font-weight: 300;
+            letter-spacing: -0.5px;
+            color: var(--primary-dark);
+        }
+
+        .product-ref {
+            font-size: 14px;
+            color: var(--text-gray);
+            font-family: monospace;
+        }
+
+        .product-description {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--dark-gray);
+        }
+
+        .product-specs {
+            background-color: var(--light-gray);
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .product-specs h3 {
+            font-size: 18px;
+            margin-bottom: 12px;
+            color: var(--primary-dark);
+        }
+
+        .product-specs ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .product-specs li {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--medium-gray);
+            font-size: 14px;
+        }
+
+        .product-specs li:last-child {
+            border-bottom: none;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 16px;
+            margin-top: 24px;
+            flex-wrap: wrap; 
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 6px;
+            border: none;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-blue);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-blue);
+        }
+
+        .btn-secondary {
+            background-color: var(--white);
+            color: var(--primary-blue);
+            border: 2px solid var(--primary-blue);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--primary-blue);
+            color: var(--white);
+        }
+
+        /* Applications Gallery */
+        .applications-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 32px;
+        }
+        
+        .application-detail-products-grid {
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        }
+
+        .application-card { 
+            border-radius: 12px;
+            overflow: hidden;
+            background-color: var(--white);
+            border: 1px solid var(--medium-gray);
+            transition: var(--transition);
+            cursor: pointer; 
+        }
+
+        .application-card:hover {
+            box-shadow: var(--shadow-lg);
+        }
+      
+        .application-content {
+            padding: 24px;
+        }
+
+        .application-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--primary-dark);
+        }
+
+        .application-description {
+            font-size: 14px;
+            color: var(--text-gray);
+            line-height: 1.6;
+        }
+
+        /* Logo Wall */
+        .logos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 32px;
+            padding: 40px 0;
+        }
+
+        .logo-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background-color: var(--white);
+            border: 1px solid var(--medium-gray);
+            border-radius: 12px;
+            height: 120px;
+            transition: var(--transition);
+        }
+
+        .logo-item:hover {
+            border-color: var(--primary-blue);
+            box-shadow: var(--shadow-md);
+        }
+
+        .logo-item img {
+            max-width: 100%;
+            max-height: 60px;
+            object-fit: contain;
+            filter: grayscale(100%);
+            opacity: 0.7;
+            transition: var(--transition);
+        }
+
+        .logo-item:hover img {
+            filter: grayscale(0%);
+            opacity: 1;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .home-banner {
+                height: 300px; 
+            }
+            .home-banner-title {
+                font-size: 32px;
+            }
+            .home-banner-subtitle {
+                font-size: 16px;
+            }
+            .header-content {
+                padding: 0 16px;
+            }
+             .logo-image {
+                height: 35px; 
+            }
+            .nav-buttons {
+                gap: 8px; 
+            }
+            .nav-button {
+                padding: 8px 12px; 
+                font-size: 12px; 
+            }
+             .nav-button svg { 
+                width: 16px;
+                height: 16px;
+            }
+
+            .main-container {
+                padding: 24px 16px;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
+             .section-subtitle {
+                font-size: 14px;
+            }
+
+            .product-detail-container, .application-detail-container {
+                grid-template-columns: 1fr; 
+            }
+
+            .products-grid { 
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
+            }
+             @media (max-width: 500px) {
+                .products-grid {
+                     grid-template-columns: 1fr; 
+                }
+            }
+
+
+            .applications-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .logos-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); 
+                gap: 16px;
+            }
+             .logo-item {
+                height: 100px; 
+            }
+            .logo-item img {
+                max-height: 40px; 
+            }
+            .product-actions .btn {
+                width: 100%; 
+                justify-content: center;
+            }
+        }
+
+        /* Loading Animation (Placeholder if needed) */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--medium-gray);
+            border-radius: 50%;
+            border-top-color: var(--primary-blue);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Breadcrumb Navigation */
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 24px;
+            font-size: 14px;
+            color: var(--text-gray);
+            flex-wrap: wrap; 
+        }
+
+        .breadcrumb a {
+            color: var(--primary-blue);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb-separator {
+            color: var(--text-gray);
+        }
+
+        /* Lightbox Modal Styles */
+        .lightbox-modal {
+            display: none; 
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.85);
+            align-items: center;
+            justify-content: center;
+            animation: fadeInModal 0.3s ease-out;
+        }
+
+        @keyframes fadeInModal {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+         @keyframes fadeOutModal {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        .lightbox-modal.fade-out {
+            animation: fadeOutModal 0.3s ease-out forwards;
+        }
+
+        #lightbox-inner-container { 
+            position: relative;
+            display: flex; 
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            max-width: 90vw;    
+            max-height: 85vh;  
+        }
+
+        .lightbox-content { 
+            display: block;
+            max-width: 100%; 
+            max-height: 100%; 
+            border-radius: 8px; 
+            box-shadow: var(--shadow-lg);
+            object-fit: contain; 
+            animation: zoomInModal 0.3s ease-out;
+        }
+         @keyframes zoomInModal {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .lightbox-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%; 
+            background-color: rgba(0, 0, 0, 0.7);
+            color: var(--white);
+            padding: 10px 15px;
+            text-align: center;
+            box-sizing: border-box;
+            border-bottom-left-radius: 8px; 
+            border-bottom-right-radius: 8px; 
+        }
+
+        .lightbox-caption h4 {
+            font-size: 1.1em; 
+            font-weight: bold;
+            margin: 0 0 5px 0;
+        }
+        .lightbox-caption p {
+            font-size: 0.9em;
+            margin: 0;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 15px; 
+            right: 25px; 
+            color: var(--white);
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            line-height: 1; 
+        }
+
+        .lightbox-close:hover,
+        .lightbox-close:focus {
+            color: var(--medium-gray);
+        }
+
+        /* In-app PDF datasheet viewer */
+        .datasheet-viewer-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 2100;
+            background-color: rgba(10, 26, 47, 0.85);
+            flex-direction: column;
+            animation: fadeInModal 0.25s ease-out;
+        }
+        .datasheet-viewer-modal.fade-out {
+            animation: fadeOutModal 0.25s ease-out forwards;
+        }
+        .datasheet-viewer-modal.is-open {
+            display: flex;
+        }
+        .datasheet-viewer-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 12px 20px;
+            background: var(--brand-gradient);
+            color: var(--white);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+        }
+        .datasheet-viewer-title {
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .datasheet-viewer-close {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.20);
+            background-color: rgba(255, 255, 255, 0.10);
+            color: var(--white);
+            font-size: 26px;
+            line-height: 1;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .datasheet-viewer-close:hover {
+            background-color: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.40);
+        }
+        #datasheet-viewer-frame {
+            flex: 1;
+            width: 100%;
+            border: 0;
+            background-color: var(--medium-gray);
+        }
+        @media (max-width: 600px) {
+            .datasheet-viewer-title {
+                font-size: 14px;
+            }
+            .datasheet-viewer-header {
+                padding: 10px 12px;
+            }
+        }
+
+        /* === Analog Way personality touches === */
+
+        /* Subtle brand gradient strip under the header for a touch of identity */
+        .header {
+            border-bottom: 0;
+            box-shadow: 0 1px 0 var(--medium-gray), 0 3px 0 0 transparent;
+            position: sticky;
+        }
+        .header::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -3px;
+            height: 3px;
+            background: var(--brand-gradient);
+            opacity: 0.85;
+        }
+
+        /* Brand-coloured primary buttons */
+        .nav-button.primary,
+        .btn-primary {
+            background: var(--brand-gradient);
+            background-size: 200% 200%;
+            background-position: 0% 50%;
+            transition: background-position 0.4s ease, transform 0.2s ease, box-shadow 0.3s ease;
+        }
+        .nav-button.primary:hover,
+        .btn-primary:hover {
+            background-position: 100% 50%;
+            box-shadow: 0 6px 16px rgba(0, 102, 204, 0.30);
+        }
+
+        /* Tagline pill above the home banner title */
+        .home-banner-tagline {
+            position: relative;
+            z-index: 2;
+            display: inline-block;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 6px 14px;
+            margin-bottom: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.45);
+            border-radius: 999px;
+            background-color: rgba(255, 255, 255, 0.10);
+            backdrop-filter: blur(4px);
+        }
+
+        /* Slight gradient tint on the banner overlay so it isn't flat black */
+        .home-banner::before {
+            background: linear-gradient(135deg, rgba(0, 44, 95, 0.72) 0%, rgba(0, 102, 204, 0.45) 60%, rgba(0, 183, 212, 0.30) 100%);
+        }
+
+        /* "NEW" badge for products and stories that just shipped */
+        .new-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            z-index: 2;
+            background-color: var(--aw-coral);
+            color: var(--white);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            padding: 4px 10px;
+            border-radius: 999px;
+            box-shadow: 0 2px 6px rgba(255, 77, 94, 0.35);
+        }
+
+        /* Date label inside customer story / news cards */
+        .card-date {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--primary-blue);
+            margin-bottom: 6px;
+        }
+
+        /* Section title gets a small accent bar on the left */
+        .section-title {
+            position: relative;
+            padding-left: 18px;
+        }
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 12%;
+            bottom: 18%;
+            width: 4px;
+            border-radius: 2px;
+            background: var(--brand-gradient);
+        }
+        /* Don't show the accent bar inside the home banner */
+        .home-banner .section-title::before { display: none; }
+
+        /* Card hover gets a slightly stronger blue accent */
+        .card:hover {
+            border-color: var(--aw-cyan);
+        }
+
+        /* Application detail image becomes a real hero */
+        #application-detail-image {
+            width: 100%;
+            border-radius: 12px;
+            object-fit: cover;
+            box-shadow: var(--shadow-md);
+        }
+
+        @media (max-width: 768px) {
+            .home-banner-tagline {
+                font-size: 11px;
+                letter-spacing: 1.5px;
+            }
+            .section-title { padding-left: 14px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="#" class="logo" id="header-logo-link">
+                 <img src="images/logo-horizontal.png" alt="Analog Way Logo" class="logo-image" height="20" width="auto">
+            </a>
+            <nav class="nav-buttons">
+                <button id="home-btn" class="nav-button">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                    Home
+                </button>
+                <button id="back-btn" class="nav-button" disabled>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                    Back
+                </button>
+                <button class="nav-button primary" id="header-cta-button">
+                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-users"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    Ask our Team
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <nav id="breadcrumb" class="breadcrumb" style="display: none;">
+            </nav>
+
+        <div id="home-view" class="view active">
+            <div class="home-banner">
+                <span class="home-banner-tagline">Inspiration on Display</span>
+                <h1 class="home-banner-title">Welcome to Analog Way</h1>
+                <p class="home-banner-subtitle">Explore our complete range of professional video processing solutions, the latest news, and the projects that bring them to life around the world.</p>
+            </div>
+
+            <div class="section-header">
+                <h2 class="section-title">Our Products</h2>
+            </div>
+            <div id="categories-products-grid" class="products-grid">
+                </div>
+
+            <div class="section-header">
+                <h2 class="section-title">Customer Focus</h2>
+            </div>
+            <div id="categories-customer-grid" class="products-grid">
+                </div>
+        </div>
+
+        <div id="category-view" class="view">
+            <div class="section-header">
+                <h1 id="category-title" class="section-title"></h1>
+                <p id="category-subtitle" class="section-subtitle">Select a product to view detailed specifications</p>
+            </div>
+            <div id="products-grid" class="products-grid">
+                </div>
+        </div>
+
+        <div id="product-detail-view" class="view">
+            <div class="product-detail-container">
+                <div class="product-images">
+                    <div class="product-image-main-wrapper">
+                        <img id="product-detail-img-main" src="https://placehold.co/600x400/F5F5F5/CCCCCC?text=Product+Image" alt="Main product image">
+                    </div>
+                    <div class="product-image-thumbnails">
+                        <div class="product-image-thumb-wrapper" id="thumb-front-wrapper">
+                            <img id="product-thumb-front" class="active" src="https://placehold.co/150x100/F5F5F5/CCCCCC?text=Front" alt="Front view thumbnail">
+                        </div>
+                        <div class="product-image-thumb-wrapper" id="thumb-back-wrapper">
+                             <img id="product-thumb-back" src="https://placehold.co/150x100/F5F5F5/CCCCCC?text=Rear" alt="Rear view thumbnail">
+                        </div>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <div>
+                        <h1 id="product-detail-title" class="product-title">Product Name</h1>
+                        <p id="product-detail-ref" class="product-ref">REF: PRODUCTREF</p>
+                    </div>
+                    <p id="product-detail-description" class="product-description">Detailed product description goes here...</p>
+                    <div id="product-specs" class="product-specs">
+                        <h3>Key Specifications</h3>
+                        <ul id="product-specs-list">
+                            </ul>
+                    </div>
+                    <div class="product-actions" id="product-detail-actions">
+                        </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="application-detail-view" class="view">
+            <div class="section-header">
+                <h1 id="application-detail-title" class="section-title">Application Title</h1>
+            </div>
+            <img id="application-detail-image" class="product-image-main" style="margin-bottom: 24px; cursor: default; height: auto; max-height: 50vh;" src="" alt="">
+            <p id="application-detail-description" style="font-size: 1.1em; line-height: 1.7; margin-bottom: 40px;"></p>
+            
+             <div id="app-products-section" class="section-header" style="padding-top: 0; border-top: 1px solid var(--medium-gray); padding-top: 40px;">
+                <h2 id="app-products-heading" class="section-title" style="font-size: 24px;">Products Used In This Project</h2>
+            </div>
+            <div id="app-products-grid" class="products-grid application-detail-products-grid"></div>
+        </div>
+
+
+        <div id="applications-view" class="view">
+            <div class="section-header">
+                <h1 id="applications-title" class="section-title">Applications</h1>
+                <p class="section-subtitle">See how our products are used in real-world installations</p>
+            </div>
+            <div id="applications-grid" class="applications-grid">
+                </div>
+        </div>
+
+        <div id="end-users-view" class="view">
+            <div class="section-header">
+                <h1 id="end-users-title" class="section-title">Trusted by Industry Leaders</h1>
+                <p class="section-subtitle">Our solutions power experiences for the world's most demanding organizations</p>
+            </div>
+            <div id="end-users-grid" class="logos-grid">
+                </div>
+        </div>
+    </main>
+
+    <div id="image-lightbox-modal" class="lightbox-modal">
+        <span class="lightbox-close" id="lightbox-modal-close-btn">&times;</span>
+        <div id="lightbox-inner-container"> 
+            <img class="lightbox-content" id="lightbox-image" src="" alt="Enlarged image">
+            <div class="lightbox-caption" id="lightbox-caption-text"></div>
+        </div>
+    </div>
+
+    <div id="datasheet-viewer-modal" class="datasheet-viewer-modal">
+        <div class="datasheet-viewer-header">
+            <div class="datasheet-viewer-title" id="datasheet-viewer-title">Datasheet</div>
+            <button class="datasheet-viewer-close" id="datasheet-viewer-close-btn" aria-label="Close datasheet viewer">&times;</button>
+        </div>
+        <iframe id="datasheet-viewer-frame" title="Datasheet viewer" src="about:blank"></iframe>
+    </div>
+
+    <div id="custom-modal" style="display:none; position:fixed; left:0; top:0; width:100%; height:100%; background-color:rgba(0,0,0,0.5); z-index:2000; align-items:center; justify-content:center;">
+        <div style="background-color:white; padding:30px; border-radius:12px; box-shadow:var(--shadow-lg); width:90%; max-width:500px; text-align:center;">
+            <h3 id="modal-title" style="font-size:24px; color:var(--primary-dark); margin-bottom:15px;">Notice</h3>
+            <p id="modal-message" style="font-size:16px; color:var(--dark-gray); margin-bottom:25px;">This is a placeholder modal.</p>
+            <button id="modal-close-btn" class="btn btn-primary">Close</button>
+        </div>
+    </div>
+
+
+    <script>
+        // Product data
+        const productsData = {
+          "home": { 
+            title: "Home", 
+            isCategoryList: true, 
+            categories: [ 
+              { id: "live_premier", name: "LivePremier™ Series", description: "4K/8K presentation systems", image: "images/Aquilon_6U_Front_det_RS6-web.png", section: "products" }, 
+              { id: "alta_4k", name: "Alta 4K Series", description: "Professional 4K video processors", image: "images/Zenith200-fav-web.PNG", section: "products" }, 
+              { id: "midra_4k", name: "Midra™ 4K Series", description: "Multi-layer video processors", image: "images/eikos-4k-fav.PNG", section: "products" }, 
+              { id: "picturall_mk2", name: "Picturall™ Mark II Series", description: "Media servers and players", image: "images/Picturall-Pro-Mark-pro-II-front.PNG", section: "products" }, 
+              { id: "coreplay", name: "CorePlay Series", description: "Media players", image: "images/New-Solo-FAV.PNG", section: "products" }, 
+              { id: "controllers", name: "Consoles & Controllers", description: "Control solutions", image: "images/RC400T-web.jpg", section: "products" }, 
+              { id: "lp_accessories", name: "LivePremier™ Accessories", description: "Cards, Cases & More", image: "images/Carte-IN-HDMI.PNG", section: "products" }, 
+              { id: "fiber_optics", name: "Fiber Optic Extenders", description: "Signal Extension", image: "images/ext-hdmi20-opt.PNG", section: "products" }, 
+              { id: "sfp_sdi", name: "SFP Modules & SDI Extenders", description: "Connectivity Solutions", image: "images/sfp-12g-opt-tr_1.PNG", section: "products" }, 
+              { id: "applications", name: "Customer Stories", description: "Real-world installations and live event productions", image: "images/Salesforce-Dreamforce-2025.avif", section: "customer" },
+              { id: "news", name: "Latest News", description: "Firmware releases, product launches and trade shows", image: "images/CT-GitHub-Universe-2025.avif", section: "customer" },
+              { id: "end_users", name: "Our Clients", description: "Trusted by industry leaders worldwide", image: "images/airbus.jpg", section: "customer" }
+            ]
+          },
+          "alta_4k": { 
+            title: "Alta 4K Series",
+            subtitle: "Professional 4K video processors for outstanding image quality and reliability.",
+            parent: "home",
+            isProductList: true,
+            products: [
+              { 
+                id: "zenith_200", name: "Zenith 200", ref: "ZEN200", 
+                imageFront: "images/Zenith200-fav-web.PNG", 
+                imageBack: "images/Zenith200-far-web.PNG", 
+                description: "Powerful 4K60 multi-output, multi-layer presentation mixer based on the powerful Alta 4K platform. Featuring a robust design, 16 inputs and 6 outputs with versatile 4K connectivity, state-of-the-art real-time processing, advanced video effects, and a user-friendly HTML5-based user interface, the Zenith 200 is perfect for mid-sized media to large live events and fixed installations that require the highest reliability and performance.", 
+                specs: [ 
+                    "16 Inputs (8x HDMI 2.0, 4x DisplayPort 1.2, 2x 12G-SDI, 2x HDMI 1.4/3G-SDI)", 
+                    "6x 4K60 Outputs (Mirrored HDMI 2.0, 12G-SDI, SFP+ options)", 
+                    "Dedicated Multiviewer Output (up to 2560x1600@60Hz)",
+                    "Up to 8x 4K split layers or 4x 4K mixing layers", 
+                    "Native 4K60 10-bit 4:4:4 video processing",
+                    "Ultra-low latency (as low as 16ms @60Hz)",
+                    "HDR processing including real-time SDR/HDR conversion",
+                    "RTMP-based livestreaming (up to 1080p30)",
+                    "Optional Analog and Dante™ audio networking card (32x32 channels)",
+                    "Rugged 3RU chassis with cleanable air filter"
+                ]
+              },
+              { 
+                id: "zenith_100", name: "Zenith 100", ref: "ZEN100", 
+                imageFront: "images/Zenith100-fav-web.PNG", 
+                imageBack: "images/Zenith100-far-web.PNG", 
+                description: "Compact 4K60 multi-layer presentation switcher with 13 inputs and 4 outputs for versatile applications. It offers advanced features in a smaller footprint, ideal for installations and events where space is a consideration but performance cannot be compromised.", 
+                specs: [ 
+                    "13 inputs (7x HDMI 2.0, 2x DP 1.2, 2x 12G-SDI, 2x HDMI 1.4/3G-SDI)", 
+                    "4x 4K60 outputs (HDMI/12G-SDI/SFP+)",
+                    "Dedicated multiviewer output",
+                    "Up to 4x 4K split layers or 2x 4K mixing layers",
+                    "Native 4K60 10-bit 4:4:4 processing",
+                    "Ultra-low latency", 
+                    "HDR support", 
+                    "Optional Dante™ audio card",
+                    "2RU compact chassis"
+                ]
+              }
+            ]
+          },
+          "live_premier": { 
+            title: "LivePremier™ Series",
+            subtitle: "Mission-critical 4K/8K multi-screen presentation systems and videowall processors.",
+            parent: "home",
+            isProductList: true,
+            products: [
+              { 
+                id: "aquilon_rs6", name: "Aquilon RS6", ref: "AQL-RS6", 
+                imageFront: "images/Aquilon_6U_front_det_RS6 copie.PNG", 
+                imageBack: "images/Aquilon_6U_rear_det_rs6.PNG", 
+                description: "Mission-critical 4K/8K multi-screen presentation system and videowall processor with 32x 4K inputs and 20x 4K outputs. The pinnacle of power for large-scale events and critical installations, delivering uncompromising presentation experiences.", 
+                specs: [ 
+                    "32x 4K60p seamless inputs (configurable: 16x HDMI 2.0, 8x DP 1.2, 8x 12G-SDI standard)", 
+                    "20x 4K60p active outputs (configurable: 20x HDMI 2.0 standard)", 
+                    "2x dedicated 4K Multiviewer outputs (HDMI 2.0)",
+                    "Up to 16x 4K or 32x DL/2K mixing layers (+ live backgrounds)", 
+                    "160 Mpx throughput on PGM @ 10-bit 4:4:4 60Hz", 
+                    "Ultra-low latency (as low as 1 frame in proper configuration)",
+                    "Real-time SDR/HDR10/HLG conversion & 3D-LUTs",
+                    "Modular I/O architecture (field-swappable cards for HDMI, DP, SDI, NDI, SFP+, Optical, SDVoE)",
+                    "Dante™ audio networking (64x64 channels @48kHz)",
+                    "Highly ruggedized 6RU chassis with redundant power supplies"
+                ]
+              },
+              { 
+                id: "aquilon_rs5", name: "Aquilon RS5", ref: "AQL-RS5", 
+                imageFront: "images/Aquilon_6U_front_det_RS5 copie.PNG", 
+                imageBack: "images/Aquilon_6U_Rear_rs5.PNG", 
+                description: "High-performance modular 4K/8K multi-screen presentation system and videowall processor with 32x 4K inputs and 16x 4K outputs for demanding applications.", 
+                specs: [ 
+                    "32x 4K60p seamless inputs (configurable)", 
+                    "16x 4K60p active outputs (configurable)", 
+                    "2x dedicated 4K Multiviewer outputs",
+                    "Up to 12x 4K or 24x DL/2K mixing layers",
+                    "120 Mpx throughput on PGM @ 10-bit 4:4:4 60Hz",
+                    "Ultra-low latency",
+                    "Modular design, field-swappable I/O cards", 
+                    "Highly ruggedized 6RU chassis"
+                ]
+              },
+              { 
+                id: "aquilon_rs4", name: "Aquilon RS4", ref: "AQL-RS4", 
+                imageFront: "images/Aquilon-5U-RS4-FAV-detoure.PNG", 
+                imageBack: "images/Aquilon-5U-RS4-FAR.PNG", 
+                description: "Powerful and scalable 4K/8K multi-screen presentation system for demanding live events, with 24 inputs and 16 outputs.", 
+                specs: [ 
+                    "24x 4K60p seamless inputs (configurable)", 
+                    "16x 4K60p active outputs (configurable)", 
+                    "2x dedicated 4K Multiviewer outputs",
+                    "Up to 12x 4K or 24x DL/2K mixing layers",
+                    "120 Mpx throughput on PGM @ 10-bit 4:4:4 60Hz",
+                    "Industrial grade reliability", 
+                    "Highly ruggedized 5RU chassis" 
+                ]
+              },
+               { 
+                id: "aquilon_rs3", name: "Aquilon RS3", ref: "AQL-RS3", 
+                imageFront: "images/Aquilon-5U-RS3-FAV-detoure.PNG", 
+                imageBack: "images/Aquilon-5U-RS3-FAR.PNG", 
+                description: "Versatile 4K/8K presentation system with 24 inputs and 12 outputs for various event sizes, offering excellent performance and image quality.", 
+                specs: [ 
+                    "24x 4K60p seamless inputs (configurable)", 
+                    "12x 4K60p active outputs (configurable)", 
+                    "2x dedicated 4K Multiviewer outputs",
+                    "Up to 8x 4K or 16x DL/2K mixing layers",
+                    "80 Mpx throughput on PGM @ 10-bit 4:4:4 60Hz",
+                    "HDR support & 3D-LUTs",
+                    "Highly ruggedized 5RU chassis"
+                ]
+                },
+               { 
+                id: "aquilon_rs2", name: "Aquilon RS2", ref: "AQL-RS2", 
+                imageFront: "images/Aquilon-4U-RS2-FAV-det.PNG", 
+                imageBack: "images/Aquilon-FAR-detoure-RS2.PNG", 
+                description: "Reliable 4K/8K system with 16 inputs and 12 outputs for mid-to-large scale projects, ensuring high-quality visual experiences.", 
+                specs: [ 
+                    "16x 4K60p seamless inputs (configurable)", 
+                    "12x 4K60p active outputs (configurable)", 
+                    "2x dedicated 4K Multiviewer outputs",
+                    "Up to 8x 4K or 16x DL/2K mixing layers",
+                    "80 Mpx throughput on PGM @ 10-bit 4:4:4 60Hz",
+                    "Ultra-low latency",
+                    "Highly ruggedized 4RU chassis"
+                ]
+                },
+               { 
+                id: "aquilon_rs1", name: "Aquilon RS1", ref: "AQL-RS1", 
+                imageFront: "images/Aquilon-4U-RS1-FAV-det.PNG", 
+                imageBack: "images/Aquilon-FAR-detoure-RS1.png", 
+                description: "Entry-level Aquilon power for impactful presentations, featuring 16 inputs and 8 outputs in a compact form factor.", 
+                specs: [ 
+                    "16x 4K60p seamless inputs (configurable)", 
+                    "8x 4K60p active outputs (configurable)", 
+                    "2x dedicated 4K Multiviewer outputs",
+                    "Up to 4x 4K or 8x DL/2K mixing layers", 
+                    "80 Mpx throughput on PGM @ 10-bit 4:4:4 60Hz", 
+                    "Compact 4RU chassis",
+                    "Web RCS control interface"
+                ]
+                },
+               { 
+                id: "aquilon_rs_alpha", name: "Aquilon RS alpha", ref: "AQL-RS-ALPHA", 
+                imageFront: "images/Aquilon-4U-RS ALPHA-FAV-det.PNG", 
+                imageBack: "images/Aquilon-4U-FAR-det-RS-alpha.PNG", 
+                description: "The most compact Aquilon RS model, offering 8 inputs and 4 outputs for smaller applications without compromising on core LivePremier features.", 
+                specs: [ 
+                    "8x 4K60p seamless inputs (configurable)", 
+                    "4x 4K60p active outputs (configurable)", 
+                    "2x dedicated 4K Multiviewer outputs",
+                    "Up to 4x 4K or 8x DL/2K mixing layers",
+                    "40 Mpx throughput on PGM @ 10-bit 4:4:4 60Hz",
+                    "Highly ruggedized 4RU chassis",
+                    "Mission-critical design with redundant PSU option"
+                ]
+                },
+              { 
+                id: "aquilon_cmax", name: "Aquilon Cmax", ref: "AQL-CMAX", 
+                imageFront: "images/Aquilon_6U_front_det_Cmax.PNG", 
+                imageBack: "images/Aquilon_6U_rear_det_cmax.PNG", 
+                description: "Maximum capability 4K/8K system with up to 32x 4K inputs and 24x 4K outputs in a compact 2RU form factor. Fully modular for ultimate flexibility.", 
+                specs: [ 
+                    "Up to 32x 4K60p inputs (depending on installed cards)", 
+                    "Up to 24x 4K60p outputs (depending on installed cards)", 
+                    "Up to 16x 4K or 32x 2K/DL mixing layers",
+                    "160 Mpx throughput on PGM @ 10-bit 4:4:4 60Hz",
+                    "2RU compact chassis", 
+                    "Fully modular I/O (HDMI, DP, SDI, NDI, SFP+, Optical, SDVoE)",
+                    "Link capability for multi-chassis setups"
+                ]
+              },
+               { 
+                id: "aquilon_c_plus", name: "Aquilon C+", ref: "AQL-C+", 
+                imageFront: "images/Aquilon-5U-C+-FAV-detoure.PNG", 
+                imageBack: "images/Aquilon-5U-FAR-detoure-C+.PNG", 
+                description: "Enhanced compact modular processor with up to 24x 4K60p inputs and up to 20x 4K60p outputs in a 2RU chassis.", 
+                specs: [ 
+                    "Up to 24x 4K60p inputs (depending on cards)", 
+                    "Up to 20x 4K60p outputs (depending on cards)", 
+                    "Up to 12x 4K mixing layers",
+                    "120 Mpx throughput on PGM @ 10-bit 4:4:4 60Hz",
+                    "2RU compact chassis",
+                    "Fully modular I/O architecture"
+                ]
+                },
+               {
+                id: "aquilon_c", name: "Aquilon C", ref: "AQL-C",
+                imageFront: "images/Aquilon-4U-C-FAV-det.PNG",
+                imageBack: "images/Aquilon-4U-C-FAR-det.PNG",
+                description: "Compact and powerful modular processor with up to 16x 4K60p inputs and 16x 4K60p outputs in a 2RU form factor.",
+                specs: [
+                    "Up to 16x 4K60p inputs (depending on cards)",
+                    "Up to 16x 4K60p outputs (depending on cards)",
+                    "Up to 8x 4K mixing layers",
+                    "80 Mpx throughput on PGM @ 10-bit 4:4:4 60Hz",
+                    "2RU form factor",
+                    "Scalable and modular design"
+                ]
+                },
+               {
+                id: "aquilon_cmini", name: "Aquilon Cmini", ref: "AQL-CMINI",
+                imageFront: "images/Aquilon-Cmini-FAV.avif",
+                imageBack: "images/Aquilon-Cmini-FAR.avif",
+                description: "Fully modular and scalable 4K/8K multi-screen presentation system and videowall processor in a 3RU chassis. Delivers professional-grade 10/12-bit 4:4:4 video processing with versatile 4K digital connectivity and ultra-low latency for compact installations that don't compromise on power.",
+                isNew: true,
+                specs: [
+                    "Up to 8x 4K60p or 16x 2K/DL inputs (modular)",
+                    "Up to 12x 4K60p outputs (modular)",
+                    "Up to 4x 4K mixing layers + split layers",
+                    "2x dedicated multiviewer outputs",
+                    "10-12 bit 4:4:4 processing at 4K60p",
+                    "Connectivity: HDMI 1.4/2.0, DP 1.2/1.4, 12G-SDI, SFP+",
+                    "AVoIP support: NDI, SDVoE, SMPTE ST 2110",
+                    "Dante audio networking 64x64 channels",
+                    "HDR & 3D LUTs support",
+                    "Link expansion option, compact 3RU chassis"
+                ]
+                },
+               { 
+                id: "dph104_lp", name: "DPH104 (for LivePremier)", ref: "DPH104", 
+                imageFront: "images/DPH104-web.PNG", 
+                imageBack: "images/DPH104-Rear-web.PNG", 
+                description: "Video processor to drive four independent Full HD displays from a single 4K60 DisplayPort 1.2 signal. Often used with LivePremier systems to expand output capabilities.", 
+                specs: [ 
+                    "1x DisplayPort 1.2 Input (up to 4K60)", 
+                    "4x HDMI 1.4 Outputs (up to 1080p60 or 2K per output)", 
+                    "Independent scaling per output", 
+                    "Output rotation (90°, 180°, 270°)",
+                    "HDCP compliant",
+                    "Compact, fanless design"
+                ]
+            }
+            ]
+          },
+          "midra_4k": { 
+            title: "Midra™ 4K Series",
+            subtitle: "Powerful and user-friendly 4K multi-layer video mixers for live events and fixed installations.",
+            parent: "home",
+            isProductList: true,
+            products: [
+                { 
+                    id: "eikos_4k", name: "Eikos 4K", ref: "EKS-4K", 
+                    imageFront: "images/eikos-4k-fav.PNG", 
+                    imageBack: "images/eikos-4k-far.PNG", 
+                    description: "Powerful 4K60 multi-layer mixer with 10 inputs (8x 4K60 + 2x 2K60), 2 PGM outputs with edge-blending support, and dedicated multiviewer. Ideal for live events and fixed installations demanding high image quality and reliability.", 
+                    specs: [ 
+                        "10 Seamless Inputs (4x HDMI 2.0, 2x DP 1.2, 2x 12G-SDI, 2x HDMI 1.4/3G-SDI)", 
+                        "2x Active Outputs (HDMI 2.0 + mirrored 12G-SDI)", 
+                        "3 Modes: Edge-Blending, Matrix (2 independent PGM), or Switcher (1 PGM + 1 AUX)",
+                        "Dedicated Multiviewer Output (HDMI 1.4 + 3G-SDI, up to 2560x1600@60)",
+                        "Up to 4x 4K mixing layers (or 8 split layers in specific modes)",
+                        "Ultra-low latency (16ms @60Hz)",
+                        "HDR10 & HLG support, SDR/HDR conversion",
+                        "RTMP IP Streaming of any input/output",
+                        "Optional Dante™ audio card (32x32)",
+                        "Compact 2RU chassis"
+                    ]
+                },
+                { 
+                    id: "quickmatrix_4k", name: "QuickMatrix 4K", ref: "QMX-4K", 
+                    imageFront: "images/quickmatrix-4k-fav.PNG", 
+                    imageBack: "images/quickmatrix-4k-far.PNG", 
+                    description: "4K60 multi-layer video mixer and matrix switcher with 10 inputs and 2 independent PGM outputs. Offers versatile routing and true seamless switching for dynamic presentations.", 
+                    specs: [ 
+                        "10 Seamless Inputs (4x HDMI 2.0, 2x DP 1.2, 2x 12G-SDI, 2x HDMI 1.4/3G-SDI)", 
+                        "2x Independent PGM Outputs (HDMI 2.0 + mirrored 12G-SDI)",
+                        "Matrix Mode: 1 mixing 4K layer (or 2 split) per output",
+                        "Dedicated Multiviewer Output (HDMI 1.4 + 3G-SDI)",
+                        "Ultra-low latency (16ms @60Hz)",
+                        "HDR10 & HLG support, SDR/HDR conversion",
+                        "RTMP IP Streaming",
+                        "Optional Dante™ audio card",
+                        "Compact 2RU chassis"
+                    ]
+                },
+                { 
+                    id: "pulse_4k", name: "Pulse 4K", ref: "PLS-4K", 
+                    imageFront: "images/pulse-4k-fav.PNG", 
+                    imageBack: "images/pulse-4k-far.PNG", 
+                    description: "Powerful and user-friendly 4K multi-layer video mixer with 10 inputs and 2 PGM outputs. Features flexible operating modes (Mixer or Matrix) and advanced audio processing.", 
+                    specs: [ 
+                        "10 Seamless Inputs (4x HDMI 2.0, 2x DP 1.2, 2x 12G-SDI, 2x HDMI 1.4/3G-SDI)", 
+                        "2x Active Outputs (HDMI 2.0 + mirrored 12G-SDI)",
+                        "Mixer Mode: 1 PGM up to 4K60, 2 mixing 4K layers (or 4 split), 1 AUX output",
+                        "Matrix Mode: 2 independent PGM outputs, 1 mixing 4K layer per output",
+                        "Dedicated Multiviewer Output",
+                        "Ultra-low latency (16ms @60Hz)",
+                        "HDR10 & HLG support",
+                        "RTMP IP Streaming",
+                        "Optional Dante™ audio card",
+                        "Compact 2RU chassis"
+                    ]
+                },
+                { 
+                    id: "quickvu_4k", name: "QuickVu 4K", ref: "QVU-4K", 
+                    imageFront: "images/quickvu-4k-fav.PNG", 
+                    imageBack: "images/quick-vu-4K-far.PNG", 
+                    description: "Easy-to-use 4K multi-layer mixer for small to mid-size events with simplified operation. Offers 10 inputs, 1 PGM output, 1 AUX output, and a dedicated multiviewer.", 
+                    specs: [ 
+                        "10 Seamless Inputs (4x HDMI 2.0, 2x DP 1.2, 2x 12G-SDI, 2x HDMI 1.4/3G-SDI)", 
+                        "1x PGM Output (HDMI 2.0 + mirrored 12G-SDI) up to 4K60",
+                        "1x AUX Output (HDMI 1.4 + 3G-SDI) up to 1080p60",
+                        "1 PGM: 1 mixing 4K layer (or 2 split layers) + foreground image",
+                        "Dedicated Multiviewer Output",
+                        "Ultra-low latency (16ms @60Hz)",
+                        "HDR10 & HLG support",
+                        "RTMP IP Streaming",
+                        "Optional Dante™ audio card",
+                        "Compact 1RU chassis"
+                    ]
+                }
+            ]
+          },
+          "picturall_mk2": {
+            title: "Picturall™ Mark II Series",
+            subtitle: "High-performance media servers for demanding video playback and large-scale displays.",
+            parent: "home",
+            isProductList: true,
+            products: [ 
+                { 
+                    id: "picturall_pro_mk2", name: "Picturall Pro Mark II", ref: "MSP16-MKII-R1", 
+                    imageFront: "images/Picturall-Pro-Mark-pro-II-front.PNG", 
+                    imageBack: "images/Picturall-Pro-Mark-pro-II-rear-v2.PNG", 
+                    description: "Mission-critical modular 16K media server designed for large-scale events and installations. Offers extensive output capabilities (up to 16x 4K@60Hz) and uncompromised playback performance.", 
+                    specs: [ 
+                        "Up to 16x DisplayPort 1.2 outputs (4K@60Hz 10-bit)", 
+                        "Playback up to 16K with AWX codec, or 18 layers of 4K@60Hz (AWX)",
+                        "Up to 24 optional inputs (HDMI 1.4/2.0, 3G-SDI)",
+                        "Canvas size up to 128K pixels across",
+                        "Up to 200 layers, Genlock & Framelock card option",
+                        "24-Core CPU (2.8GHz), 64GB DDR4 RAM",
+                        "2TB NVMe RAID 0 standard (up to 32TB options)",
+                        "Dual 10Gb/s networking",
+                        "Ruggedized 4RU chassis, optional redundant PSU"
+                    ]
+                },
+                { 
+                    id: "picturall_quad_mk2", name: "Picturall Quad Mark II", ref: "MSQ04-MKII-R1", 
+                    imageFront: "images/picturall-quad-mark-II-front.PNG", 
+                    imageBack: "images/picturall-quad-mark-II-rear-v2.PNG", 
+                    description: "Powerful and versatile video playback and processing solution with four 4K@60Hz 10-bit outputs, high playback performance up to 8K resolution, and flexible input options.", 
+                    specs: [ 
+                        "4x DisplayPort 1.2 outputs (up to 4K@60Hz 10-bit)",
+                        "Playback up to 10 layers of 4K@60Hz or 2 layers of 8K@60 (AWX codec, 2 NVMe option)",
+                        "Up to 6 optional low-latency input cards (HDMI 1.4/2.0, 3G-SDI)",
+                        "Canvas size up to 32K pixels across",
+                        "NDI 5.0 support (input/output)",
+                        "8-Core CPU (3.2GHz), 32GB DDR4 RAM",
+                        "1TB NVMe standard (options up to 16TB)",
+                        "Dual 10Gb/s networking",
+                        "Ruggedized 4RU chassis"
+                    ]
+                },
+                { 
+                    id: "picturall_quad_compact_mk2", name: "Picturall Quad Compact Mark II", ref: "MSQC04-MKII-R1", 
+                    imageFront: "images/picturall-Quad-Compact-Mark-II-front.PNG", 
+                    imageBack: "images/picturall-Quad-Compact-Mark-II-rear-w-opt-v2.PNG", 
+                    description: "Compact quad-output 8K media server with four 4K@60Hz 10-bit outputs in a smaller 2RU form factor, ideal for space-constrained projects without sacrificing performance.", 
+                    specs: [ 
+                        "4x DisplayPort 1.2 outputs (up to 4K@60Hz 10-bit)",
+                        "Playback performance similar to Quad Mark II (e.g., 10 layers of 4K@60Hz with AWX)",
+                        "Up to 2 optional low-latency input cards",
+                        "Canvas size up to 32K pixels across",
+                        "NDI 5.0 support",
+                        "8-Core CPU (3.2GHz), 32GB DDR4 RAM",
+                        "1TB NVMe standard (options up to 16TB)",
+                        "Dual 10Gb/s networking",
+                        "Compact 2RU chassis"
+                    ]
+                },
+                { 
+                    id: "picturall_twin_compact_mk2", name: "Picturall Twin Compact Mark II", ref: "MSTC02-MKII-R1", 
+                    imageFront: "images/picturall-twin-compact-mark-II-front.PNG", 
+                    imageBack: "images/picturall-twin-compact-mark-II-rear-wo-opt.PNG", 
+                    description: "Cost-effective and very compact dual-output 4K media server, perfect for smaller installations or as a companion to live presentation switchers.", 
+                    specs: [ 
+                        "2x DisplayPort 1.2 outputs (up to 4K@60Hz 10-bit)",
+                        "Playback up to 6 layers of 4K@60Hz (AWX codec, NVMe option)",
+                        "Up to 2 optional low-latency input cards",
+                        "Canvas size up to 16K pixels across",
+                        "NDI 5.0 support",
+                        "6-Core CPU (3.2GHz), 16GB DDR4 RAM",
+                        "480GB SSD standard (NVMe options up to 8TB)",
+                        "Dual 1Gb/s networking (10Gb/s option)",
+                        "Compact 2RU half-width chassis"
+                    ]
+                },
+                { 
+                    id: "dph104_pict", name: "DPH104 (for Picturall)", ref: "DPH104", 
+                    imageFront: "images/DPH104-web.PNG", 
+                    imageBack: "images/DPH104-Rear-web.PNG", 
+                    description: "Video processor often used with Picturall servers to drive four Full HD displays from one 4K DisplayPort signal, expanding output flexibility.", 
+                    specs: [ 
+                        "1x DisplayPort 1.2 Input (up to 4K60)", 
+                        "4x HDMI 1.4 Outputs (up to 1080p60 or 2K per output)", 
+                        "Zero latency processing",
+                        "Slicer & Splitter modes",
+                        "HDCP 1.4 & 2.2 compliant",
+                        "Compact 1RU half-rack design"
+                    ]
+                }
+            ]
+          },
+          "coreplay": {
+            title: "CorePlay Series",
+            subtitle: "Versatile and reliable media players for a wide range of applications.",
+            parent: "home",
+            isProductList: true,
+            products: [ 
+                { 
+                    id: "coreplay_solo", name: "CorePlay Solo", ref: "CPS01-R1", 
+                    imageFront: "images/New-Solo-FAV.PNG", 
+                    imageBack: "images/New-Solo-FAR.PNG", 
+                    description: "Straightforward single-channel 4K video player designed for rental staging and live-operated applications. Easy to operate and fast to learn, focusing on seamless, high-quality playback.", 
+                    specs: [ 
+                        "2x DisplayPort 1.4a outputs (Program & Preview, up to 4K@60Hz 10-bit)",
+                        "Supported codecs: H.264, H.265/HEVC, AWX, HAP, NotchLC™",
+                        "Full 10-bit 4:4:4 processing",
+                        "CorePlay RCS software for intuitive control",
+                        "Stream Deck support (native & Companion)",
+                        "1x 1GbE and 2x 2.5GbE networking",
+                        "Optional Dante™ audio (8 channels, license-based, future firmware)", 
+                        "Compact 2RU half-width chassis"
+                    ]
+                }
+            ]
+          },
+          "lp_accessories": {
+            title: "LivePremier™ Accessories",
+            subtitle: "Enhance your LivePremier™ systems with a range of input/output cards, control interfaces, and transport solutions.",
+            parent: "home",
+            isGroupedList: true, 
+            products: [ 
+                // Input Cards
+                { id: "hdmi_in_card", name: "Four HDMI 2.0 input card", ref: "ACC-AQL-IN-HDMI", imageFront: "images/Carte-IN-HDMI.PNG", imageBack: "images/Carte-IN-HDMI.PNG", description: "Field-swappable input card with four HDMI 2.0 ports for LivePremier™ systems.", specs: ["4x HDMI 2.0 input ports", "Up to 4K60 8-bit 4:4:4 or 12-bit 4:2:2", "HDCP 1.4 and 2.2 compliant", "HDR10 and HLG compliant", "Supports up to 8 embedded audio channels per input (PCM)", "Field-swappable (not hot-swappable)"], type: 'card-in' },
+                { id: "dp_in_card", name: "Four DisplayPort 1.2 input card", ref: "ACC-AQL-IN-DP", imageFront: "images/Carte-IN-DP.PNG", imageBack: "images/Carte-IN-DP.PNG", description: "Field-swappable input card with four DisplayPort 1.2 ports for LivePremier™ systems.", specs: ["4x DisplayPort 1.2 input ports", "Up to 4K60 10-bit 4:4:4", "HDCP 1.4 and 2.2 compliant", "HDR10 and HLG compliant", "Supports up to 8 embedded audio channels per input (PCM)", "Field-swappable"], type: 'card-in' },
+                { id: "sdi_12g_in_card", name: "Four 12G-SDI input card", ref: "ACC-AQL-IN-SDI", imageFront: "images/Carte-IN-SDI.PNG", imageBack: "images/Carte-IN-SDI.PNG", description: "Field-swappable input card with four 12G-SDI ports for LivePremier™ systems.", specs: ["4x 12G/6G/3G-SDI inputs (BNC)", "Supports up to 4K60 10-bit 4:2:2", "Compatible with Level A & B", "Supports up to 16 embedded audio channels per input (PCM)", "Field-swappable"], type: 'card-in' },
+                { id: "sfp_12g_in_card", name: "Four 12G-SFP input card", ref: "ACC-AQL-IN-SFP", imageFront: "images/Carte-IN-SFP.PNG", imageBack: "images/Carte-IN-SFP.PNG", description: "Field-swappable input card with four 12G-SFP ports for LivePremier™ systems, allowing for various SFP transceiver types.", specs: ["4x SFP+ cages for 12G-SDI optical or other SFP transceivers", "Supports up to 4K60 (depends on SFP module)", "Flexible connectivity options", "Field-swappable"], type: 'card-in' },
+                { id: "sdvoe_in_card", name: "Four SDVoE input card", ref: "ACC-AQL-IN-SDVOE", imageFront: "images/carte-IN-SDVOE_web.PNG", imageBack: "images/carte-IN-SDVOE_web.PNG", description: "Field-swappable input card with four SDVoE (Software Defined Video over Ethernet) ports for LivePremier™ systems.", specs: ["4x SDVoE input ports (RJ45 or SFP for 10GbE)", "Supports 4K60 4:4:4 over IP", "Near-zero latency", "Interoperable with SDVoE Alliance products", "Field-swappable"], type: 'card-in' },
+                { id: "ip_sdi_in_card", name: "Input card with four 12G-SDI port and one 2.5GbE NDI-enabled port", ref: "ACC-AQL-IN-IP-SDI", imageFront: "images/Carte-IN-IP-SDI.PNG", imageBack: "images/Carte-IN-IP-SDI.PNG", description: "Hybrid input card for LivePremier™ with four 12G-SDI inputs and one 2.5GbE NDI-enabled port for IP video workflows.", specs: ["4x 12G/6G/3G-SDI inputs", "1x 2.5GbE NDI-enabled input port", "Supports NDI (Full NDI, NDI|HX)", "Versatile SDI and IP connectivity", "Field-swappable"], type: 'card-in' },
+                { id: "st2110_in_card", name: "Four SMPTE ST 2110 input card", ref: "ACC-AQL-IN-2110", imageFront: "images/Carte-IN-2110.PNG", imageBack: "images/Carte-IN-2110.PNG", description: "Field-swappable input card with four 25GbE SFP28 ports for SMPTE ST 2110 IP video workflows on LivePremier™ Aquilon systems. Receives uncompressed 4K60 video, audio and ancillary data over IP, with full ST 2022-7 redundancy support.", specs: ["4x 25GbE SFP28 ports (LC fiber or copper SFP)", "SMPTE ST 2110-20/-21/-30/-40 compliant", "Up to 4K60 4:2:2 10-bit per stream", "ST 2022-7 hitless redundancy", "PTP synchronization (SMPTE 2059, AES67)", "NMOS IS-04 / IS-05 discovery & connection", "Field-swappable"], type: 'card-in', isNew: true },
+                { id: "eight_sdi_in_card", name: "Eight 3G/12G-SDI input card", ref: "ACC-AQL-IN-SDI-8", imageFront: "images/Carte-IN-SDI-8.PNG", imageBack: "images/Carte-IN-SDI-8.PNG", description: "High-density field-swappable input card with eight 3G/12G-SDI ports, doubling SDI input capacity per slot for broadcast and large-scale SDI workflows.", specs: ["8x 3G/12G-SDI inputs (BNC)", "Supports up to 4K60 10-bit 4:2:2", "Compatible with Level A & B", "Up to 16 embedded audio channels per input (PCM)", "Field-swappable"], type: 'card-in', isNew: true },
+                { id: "hdmi_fiber_in_card", name: "Four HDMI 2.0 over fiber input card", ref: "ACC-AQL-IN-HDMI-FBR", imageFront: "images/Carte-IN-HDMI FIBER.PNG", imageBack: "images/Carte-IN-HDMI FIBER.PNG", description: "Adds four HDMI 2.0 inputs over multi-mode fiber (SC connectors) for extended signal range up to 600m for 4K.", specs: ["4x HDMI 2.0 over Fiber inputs (SC connectors)", "Uncompressed video up to 18 Gbps per port", "True 4K60 4:4:4 performance", "Transmission up to 600m (4K) or 2500m (Full HD)", "HDCP 1.4 & 2.2, HDR10 & HLG compliant", "Field-swappable"], type: 'card-in' },
+                { id: "hdmi14_in_card", name: "Eight HDMI 1.4 input card", ref: "ACC-AQL-IN-HDMI-1.4", imageFront: "images/Carte-IN-HDMI 1.4.PNG", imageBack: "images/Carte-IN-HDMI 1.4.PNG", description: "Field-swappable input card with eight HDMI 1.4 ports for LivePremier™ systems. Supports formats up to 4K30 4:4:4 or 2560x1600@60Hz.", specs: ["8x HDMI 1.4 input ports", "Up to 4K30 4:4:4 or 2560x1600@60Hz per port", "HDCP 1.3 compliant", "Supports up to 4 embedded audio channels per input (PCM)", "Field-swappable"], type: 'card-in' },
+                // Output Cards
+                { id: "hdmi_out_card", name: "Four HDMI 2.0 output card", ref: "ACC-AQL-OUT-HDMI", imageFront: "images/Carte-OUT-HDMI.PNG", imageBack: "images/Carte-OUT-HDMI.PNG", description: "Field-swappable output card with four HDMI 2.0 ports for LivePremier™ systems. Supports resolutions up to 4K60 8-bit 4:4:4.", specs: ["4x HDMI 2.0 output ports", "Up to 4K60 8-bit 4:4:4 or 12-bit 4:2:2", "HDCP 1.4 and 2.2 compliant", "HDR10 and HLG compliant", "Supports up to 8 embedded audio channels per output (PCM)", "Field-swappable (not hot-swappable)"], type: 'card-out' },
+                { id: "dp_out_card", name: "Four DisplayPort 1.2 output card", ref: "ACC-AQL-OUT-DP", imageFront: "images/Carte-OUT-DP.PNG", imageBack: "images/Carte-OUT-DP.PNG", description: "Field-swappable output card with four DisplayPort 1.2 ports for LivePremier™ systems.", specs: ["4x DisplayPort 1.2 output ports", "Up to 4K60 10-bit 4:4:4", "HDCP 1.4 and 2.2 compliant", "HDR10 and HLG compliant", "Supports up to 8 embedded audio channels per output (PCM)", "Field-swappable"], type: 'card-out' },
+                { id: "sdi_12g_out_card", name: "Four 12G-SDI output card", ref: "ACC-AQL-OUT-SDI", imageFront: "images/Carte-OUT-SDI.PNG", imageBack: "images/Carte-OUT-SDI.PNG", description: "Field-swappable output card with four 12G-SDI ports for LivePremier™ systems.", specs: ["4x 12G/6G/3G-SDI outputs (BNC)", "Supports up to 4K60 10-bit 4:2:2", "Compatible with Level A & B", "Supports up to 16 embedded audio channels per output (PCM)", "Field-swappable"], type: 'card-out' },
+                { id: "sfp_12g_out_card", name: "Four 12G-SFP output card", ref: "ACC-AQL-OUT-SFP", imageFront: "images/Carte-OUT-SFP.PNG", imageBack: "images/Carte-OUT-SFP.PNG", description: "Field-swappable output card with four 12G-SFP ports for LivePremier™ systems.", specs: ["4x SFP+ cages for 12G-SDI optical or other SFP transceivers", "Supports up to 4K60 (depends on SFP module)", "Flexible connectivity options", "Field-swappable"], type: 'card-out' },
+                { id: "sdvoe_out_card", name: "Four SDVoE output card", ref: "ACC-AQL-OUT-SDVOE", imageFront: "images/Carte-OUT-SDVoE-web.PNG", imageBack: "images/Carte-OUT-SDVoE-web.PNG", description: "Field-swappable output card with four SDVoE ports for LivePremier™ systems.", specs: ["4x SDVoE output ports (RJ45 or SFP for 10GbE)", "Supports 4K60 4:4:4 over IP", "Near-zero latency", "Interoperable with SDVoE Alliance products", "Field-swappable"], type: 'card-out' },
+                { id: "st2110_out_card", name: "Four SMPTE ST 2110 output card", ref: "ACC-AQL-OUT-2110", imageFront: "images/Carte-OUT-2110.PNG", imageBack: "images/Carte-OUT-2110.PNG", description: "Field-swappable output card with four 25GbE SFP28 ports for SMPTE ST 2110 IP video workflows on LivePremier™ Aquilon systems. Streams uncompressed 4K60 video, audio and ancillary data over IP with broadcast-grade redundancy.", specs: ["4x 25GbE SFP28 ports (LC fiber or copper SFP)", "SMPTE ST 2110-20/-21/-30/-40 compliant", "Up to 4K60 4:2:2 10-bit per stream", "ST 2022-7 hitless redundancy", "PTP synchronization (SMPTE 2059, AES67)", "NMOS IS-04 / IS-05 discovery & connection", "Field-swappable"], type: 'card-out', isNew: true },
+                { id: "hdmi_fiber_out_card", name: "Four HDMI 2.0 over fiber output card", ref: "ACC-AQL-OUT-HDMI-FBR", imageFront: "images/Cartes-OUT-HDMI-FIBER.PNG", imageBack: "images/Cartes-OUT-HDMI-FIBER.PNG", description: "Adds four HDMI 2.0 outputs over multi-mode fiber (SC connectors) for extended signal range.", specs: ["4x HDMI 2.0 over Fiber outputs (SC connectors)", "Uncompressed video up to 18 Gbps per port", "True 4K60 4:4:4 performance", "Transmission up to 600m (4K) or 2500m (Full HD)", "HDCP 1.4 & 2.2, HDR10 & HLG compliant", "Field-swappable"], type: 'card-out' },
+                { id: "link_card_qsfp", name: "Link card for LivePremier series", ref: "ACC-AQL-OUT-LINK-QSFP", imageFront: "images/Carte-OUT--LINK-QSFP+_web.PNG", imageBack: "images/Carte-OUT--LINK-QSFP+_web.PNG", description: "Output card for linking multiple LivePremier chassis together to create very large-scale systems. Uses QSFP+ connectivity.", specs: ["QSFP+ ports for inter-chassis linking", "Enables expansion of processing power and I/O", "High-bandwidth, low-latency connection", "For large-scale event and fixed installations", "Field-swappable"], type: 'card-out' },
+                { id: "link_card_fiber", name: "Fiber Link card for LivePremier series", ref: "ACC-AQL-OUT-LINK-FBR", imageFront: "images/Carte-OUT-LINK-FIBER.PNG", imageBack: "images/Carte-OUT-LINK-FIBER.PNG", description: "New fiber-based Link card for LivePremier™ Aquilon systems, introduced with firmware V6.1. Replaces direct copper QSFP+ links with single-mode fiber for inter-chassis connectivity up to 500 m, ideal for large venues, multi-room installations and stadium-scale deployments where the chassis cannot be co-located.", specs: ["Long-distance inter-chassis linking up to 500 m", "Single-mode optical fiber (LC connectors)", "High-bandwidth, low-latency expansion of processing power and I/O", "Compatible with Aquilon RS, C, C+, Cmax and Cmini chassis", "Requires Aquilon firmware V6.1 or later", "Field-swappable"], type: 'card-out', isNew: true },
+                // Other Accessories
+                { id: "control_card_mv_dp", name: "Control card with two DisplayPort 1.2 multiviewer ports", ref: "ACC-AQL-MVR-DP", imageFront: "images/Carte-IN-MVW-DP.PNG", imageBack: "images/Carte-IN-MVW-DP.PNG", description: "Field-swappable control card for LivePremier™ systems, featuring two DisplayPort 1.2 multiviewer outputs. Can be configured as a single 4K60 multiviewer or two 4K30 multiviewers.", specs: ["2x DisplayPort 1.2 multiviewer outputs", "Supports single 4K60 or dual 4K30 multiviewers", "Compatible with DPH104 to feed up to 8 Full HD displays", "Gigabit Ethernet interface for remote control", "32GB SSD for user configuration storage", "HDCP 1.4 and 2.2 compliant"], type: 'other' },
+                { id: "input_filler_card", name: "Input filler card", ref: "ACC-AQL-IN-FILLER", imageFront: "images/Carte-IN-FILLER.PNG", imageBack: "images/Carte-IN-FILLER_web.PNG", description: "Blank card to cover unused input slots in LivePremier™ chassis, maintaining airflow and aesthetics.", specs: ["Covers unused input slots", "Maintains chassis integrity and airflow"], type: 'other' },
+                { id: "output_filler_card", name: "Output filler card", ref: "ACC-AQL-OUT-FILLER", imageFront: "images/Carte-OUT-FILLER.PNG", imageBack: "images/Carte-OUT-FILLER.PNG", description: "Blank card to cover unused output slots in LivePremier™ chassis.", specs: ["Covers unused output slots", "Maintains chassis integrity and airflow"], type: 'other' },
+                { id: "protective_case_aquilon", name: "Protective Case for Aquilon", ref: "ACC-AQL-HARD-CASE", imageFront: "images/Flight-Case-Aquilon-pose.jpg", imageBack: "images/Flight-Case-Aquilon-pose.jpg", description: "Custom-designed hard case for transporting Aquilon RS series systems safely. Provides robust protection during transit.", specs: ["Custom foam interior (specify Aquilon model)", "Integrated wheels and retractable handle", "ATA-rated rugged construction", "Multiple latches for secure closure"], type: 'other' },
+                { id: "dph104_lp_acc", name: "DPH104 Video Processor", ref: "DPH104", imageFront: "images/DPH104-web.PNG", imageBack: "images/DPH104-Rear-web.PNG", description: "High-performance latency-free 4K image processor to convert one 4K DisplayPort output to four independent 1080p HDMI outputs. Ideal for multiviewer expansion.", specs: ["1x DisplayPort 1.2 Input (up to 4K60)", "4x HDMI 1.4 Outputs (up to 1080p60 or 2K per output)", "Zero latency processing", "Slicer & Splitter modes", "HDCP 1.4 & 2.2 compliant", "Compact 1RU half-rack, fanless design"], type: 'other' }
+            ]
+          },
+          "controllers": {
+            title: "Consoles & Controllers",
+            subtitle: "Intuitive control surfaces for seamless operation of your Analog Way systems.",
+            parent: "home",
+            isProductList: true,
+            products: [ 
+                { 
+                    id: "rc400t", name: "RC400T Event Controller", ref: "RC400T", 
+                    imageFront: "images/RC400T-web.jpg", 
+                    imageBack: "images/analog-way-670-rcu300.jpg", 
+                    description: "Premium event controller designed for LivePremier™, Alta 4K, and Midra™ 4K series. Offers instant access to crucial functionalities like screens, layers, sources, and memories.", 
+                    specs: [ 
+                        "Controls up to 5 devices in parallel",
+                        "56 user-programmable buttons with digital scribble strips", 
+                        "High-resolution T-bar for manual transitions", 
+                        "Three-axis joystick for PIP sizing and programming",
+                        "Small footprint and rugged housing",
+                        "Ethernet network interface, USB connectivity"
+                    ]
+                },
+                { 
+                    id: "control_box3", name: "Control Box³", ref: "SB124T-3", 
+                    imageFront: "images/Controlbox3-fav.jpg", 
+                    imageBack: "images/Controlbox3-fav.jpg", 
+                    description: "Ergonomic and compact solution to operate LivePremier™, Alta 4K, or Midra™ 4K series with ease. Provides instant access to screens, sources, and memories.", 
+                    specs: [ 
+                        "105 function-labeled keys with blue/red backlighting", 
+                        "T-Bar for manual smooth transitions", 
+                        "Compatible with LivePremier™, Alta 4K, and Midra™ 4K series",
+                        "Direct USB connection or remote via computer (software included)",
+                        "Heavy-duty extruded aluminum case",
+                        "Robust carrying case included"
+                    ]
+                },
+                { 
+                    id: "shot_box2", name: "Shot Box²", ref: "SB80-2", 
+                    imageFront: "images/SB-80-2-front-web-300dpi-rvb.PNG", 
+                    imageBack: "images/SB-80-2-front-web-300dpi-rvb.PNG", 
+                    description: "Streamlined preset controller for quick access to memories and sources. Compatible with LivePremier™, Alta 4K, Midra™ 4K, LiveCore™, and Midra™ 3G/H series.", 
+                    specs: [ 
+                        "70 keys for Master Presets or Screen Presets",
+                        "4 keys for Monitoring/Preview Presets",
+                        "1 large key for Page selection",
+                        "1 large key for Take button",
+                        "Direct USB connection or remote via computer (software included)",
+                        "Robust carrying case included"
+                    ]
+                }
+            ]
+          },
+          "fiber_optics": { 
+            title: "Fiber Optic Extenders",
+            subtitle: "Reliable solutions for extending high-resolution video signals over long distances.",
+            parent: "home",
+            isProductList: true,
+            products: [ 
+                { 
+                    id: "hdmi_opt_rx", name: "Full 4K HDMI 2.0 Compatible Optical Receiver", ref: "EXT-HDMI20-OPT-RX", 
+                    imageFront: "images/ext-hdmi20-opt.PNG", 
+                    imageBack: "images/ext-hdmi20-opt.PNG", 
+                    description: "Receives 4K HDMI 2.0 signals over multi-mode fiber optic cable, ensuring signal integrity over extended distances.", 
+                    specs: [
+                        "HDMI 2.0 compliant", 
+                        "Supports 4K@60 4:4:4 or 4K60 10-bit 4:2:2", 
+                        "Transmission distance up to 600m (~2000 ft) for 4K, 2500m (~8200 ft) for Full HD (OM3 MMF)", 
+                        "HDCP 1.4 & 2.2 support", 
+                        "HDR compliant",
+                        "Plug and play"
+                    ]
+                },
+                { 
+                    id: "hdmi_opt_tx", name: "Full 4K HDMI 2.0 Compatible Optical Transmitter", ref: "EXT-HDMI20-OPT-TX", 
+                    imageFront: "images/ext-hdmi20-opt.PNG", 
+                    imageBack: "images/ext-hdmi20-opt.PNG", 
+                    description: "Transmits 4K HDMI 2.0 signals over multi-mode fiber optic cable, ideal for long-haul transmission without signal degradation.", 
+                    specs: [
+                        "HDMI 2.0 compliant", 
+                        "Supports 4K@60 4:4:4 or 4K60 10-bit 4:2:2", 
+                        "Transmission distance up to 600m (OM3 MMF)", 
+                        "HDCP 1.4 & 2.2 support", 
+                        "HDR compliant",
+                        "Compact design"
+                    ]
+                },
+                { 
+                    id: "dp_fiber_extender", name: "DisplayPort 1.2 Over Fiber Extender", ref: "EXT-DP12-OPT", 
+                    imageFront: "images/Ext-displayport-1.2-fiber-TX-RX-2.PNG", 
+                    imageBack: "images/Ext-displayport-1.2-fiber-TX-RX-2.PNG", 
+                    description: "Extends DisplayPort 1.2 signals over fiber optic cable, supporting 4K@60Hz resolution for high-quality video transmission.", 
+                    specs: [
+                        "DisplayPort 1.2 compliant", 
+                        "Supports 4K@60Hz 4:4:4", 
+                        "Long distance transmission (up to 300m with OM3 MMF)", 
+                        "Plug and Play operation", 
+                        "Includes transmitter and receiver pair",
+                        "HDCP compliant"
+                    ]
+                },
+                { 
+                    id: "power_tray_8hdmi", name: "Power Tray for 8 HDMI 2.0 Optical Extenders", ref: "OPT-POWERTRAY-NTD", 
+                    imageFront: "images/Powertray-ntd-rear.PNG", 
+                    imageBack: "images/Powertray-ntd-rear.PNG", 
+                    description: "Rack-mountable power solution for up to 8 HDMI 2.0 optical extenders (TX or RX units).", 
+                    specs: [
+                        "Powers up to 8 EXT-HDMI20-OPT-RX/TX units",
+                        "1RU rack-mountable",
+                        "Reduces cable clutter",
+                        "Provides centralized power"
+                    ]
+                },
+                { 
+                    id: "power_tray_16hdmi_ntq", name: "Power Tray For 16 HDMI 2.0 Optical Extenders (NTQ)", ref: "OPT-POWERTRAY-NTQ", 
+                    imageFront: "images/Powertray-ntq-rear.PNG", 
+                    imageBack: "images/Powertray-ntq-rear.PNG", 
+                    description: "Rack-mountable power solution for up to 16 HDMI 2.0 optical extenders. Provides efficient power distribution.", 
+                    specs: [
+                        "Powers up to 16 EXT-HDMI20-OPT-RX/TX units",
+                        "1RU or 2RU rack-mountable (verify specific model)",
+                        "Centralized power management",
+                        "Robust design for professional use"
+                    ]
+                },
+                { 
+                    id: "power_tray_16hdmi_sc", name: "Power Tray For 16 HDMI 2.0 Optical Extenders (SC)", ref: "OPT-POWERTRAY-SC", 
+                    imageFront: "images/Powertray-sc-rear.PNG", 
+                    imageBack: "images/Powertray-sc-rear.PNG", 
+                    description: "Alternative rack-mountable power solution for up to 16 HDMI 2.0 optical extenders, likely differing in connector or power configuration.", 
+                    specs: [
+                        "Powers up to 16 EXT-HDMI20-OPT-RX/TX units",
+                        "Specific connector types (e.g., SC for fiber or power)",
+                        "Rack-mountable design",
+                        "Ensures reliable power delivery"
+                    ]
+                },
+                { 
+                    id: "power_tray_8dp", name: "Rack-Mountable Power Tray for 8 DisplayPort 1.2 Over Fiber Extenders", ref: "OPT-DP-POWERTRAY", 
+                    imageFront: "images/OPT-DP-Powertray-front.PNG", 
+                    imageBack: "images/OPT-DP-Powertray-front.PNG", 
+                    description: "Centralized power solution for up to 8 DisplayPort 1.2 over fiber extenders.", 
+                    specs: [
+                        "Powers up to 8 EXT-DP12-OPT units",
+                        "1RU rack-mountable",
+                        "Simplifies power cabling",
+                        "Designed for professional installations"
+                    ]
+                }
+            ]
+          },
+          "sfp_sdi": { 
+            title: "SFP Modules & SDI Extenders",
+            subtitle: "Versatile SFP modules and SDI extenders for various connectivity needs in professional AV setups.",
+            parent: "home",
+            isProductList: true,
+            products: [ 
+                { 
+                    id: "sdi_fiber_rx", name: "Single-Mode LC Fiber to 12G-SDI Receiver", ref: "EXT-12G-OPT-RX", 
+                    imageFront: "images/EXT-12G-OPT-RX.PNG", 
+                    imageBack: "images/ext-12g-opt-rx_1.PNG", 
+                    description: "Converts fiber optic signal (single-mode LC) back to a 12G-SDI electrical signal. Supports distances up to 10km.", 
+                    specs: [
+                        "12G-SDI output (BNC)", 
+                        "Single-Mode LC Fiber input", 
+                        "Supports up to 4K@60", 
+                        "Transmission up to 10 km (6.2 miles)",
+                        "Compact and rugged design"
+                    ]
+                },
+                { 
+                    id: "sdi_fiber_tx", name: "12G-SDI to Single-Mode LC Fiber Transmitter", ref: "EXT-12G-OPT-TX", 
+                    imageFront: "images/ext-12g-opt-tx.PNG", 
+                    imageBack: "images/ext-12g-opt-tx_1.PNG", 
+                    description: "Converts a 12G-SDI electrical signal to a fiber optic signal for long-distance transmission up to 10km.", 
+                    specs: [
+                        "12G-SDI input (BNC)", 
+                        "Single-Mode LC Fiber output", 
+                        "Supports up to 4K@60", 
+                        "Transmission up to 10 km (6.2 miles)",
+                        "Reliable signal transmission"
+                    ]
+                },
+                { 
+                    id: "sfp_12g_bnc_rx", name: "12G-SDI Video SFP+ Receiver", ref: "SFP-12G-BNC-RX", 
+                    imageFront: "images/sfp-12g-bnc-rx.PNG", 
+                    imageBack: "images/sfp-12g-bnc-rx_1.PNG", 
+                    description: "SFP+ module for receiving 12G-SDI video signals over coaxial cable via BNC connector.", 
+                    specs: [
+                        "12G-SDI input (HD-BNC or DIN 1.0/2.3)",
+                        "MSA compliant SFP+ form factor",
+                        "Supports 12G, 6G, 3G, HD-SDI",
+                        "Hot-pluggable"
+                    ]
+                },
+                { 
+                    id: "sfp_12g_bnc_tx", name: "12G-SDI Video SFP+ Transmitter", ref: "SFP-12G-BNC-TX", 
+                    imageFront: "images/sfp-12g-bnc-tx.PNG", 
+                    imageBack: "images/sfp-12g-bnc-tx_1.PNG", 
+                    description: "SFP+ module for transmitting 12G-SDI video signals over coaxial cable via BNC connector.", 
+                    specs: [
+                        "12G-SDI output (HD-BNC or DIN 1.0/2.3)",
+                        "MSA compliant SFP+ form factor",
+                        "Supports 12G, 6G, 3G, HD-SDI",
+                        "Hot-pluggable"
+                    ]
+                },
+                { 
+                    id: "sfp_st2110_rx", name: "ST2110 SFP Receiver", ref: "SFP-3G-2110-RX", 
+                    imageFront: "images/sfp-3g-2110-rx.PNG", 
+                    imageBack: "images/sfp-3g-2110-rx_1.PNG", 
+                    description: "SFP module for receiving SMPTE ST2110 video signals over IP networks.", 
+                    specs: [
+                        "SMPTE ST2110 compliant receiver",
+                        "Typically 10GbE or 25GbE interface (LC connector)",
+                        "Supports uncompressed video over IP",
+                        "For LivePremier IP-enabled cards"
+                    ]
+                },
+                { 
+                    id: "sfp_st2110_tx", name: "ST2110 SFP Transmitter", ref: "SFP-3G-2110-TX", 
+                    imageFront: "images/sfp-3g-2110-tx.PNG", 
+                    imageBack: "images/sfp-3g-2110-tx_1.PNG", 
+                    description: "SFP module for transmitting SMPTE ST2110 video signals over IP networks.", 
+                    specs: [
+                        "SMPTE ST2110 compliant transmitter",
+                        "Typically 10GbE or 25GbE interface (LC connector)",
+                        "Supports uncompressed video over IP",
+                        "For LivePremier IP-enabled cards"
+                    ]
+                },
+                { 
+                    id: "sfp_12g_opt_tr", name: "12G-SDI video SFP+ Optical Transceiver", ref: "SFP-12G-OPT-TR", 
+                    imageFront: "images/sfp-12g-opt-tr.PNG", 
+                    imageBack: "images/sfp-12g-opt-tr_1.PNG", 
+                    description: "Hot-pluggable SFP+ optical transceiver module for 12G-SDI video signals, typically used with SFP+ cages on compatible devices.", 
+                    specs: [
+                        "12G-SDI compliant", 
+                        "LC duplex connector", 
+                        "Hot-pluggable SFP+ footprint", 
+                        "Single-mode, up to 10km reach", 
+                        "MSA compliant"
+                    ]
+                }
+            ]
+          },
+          "applications": {
+            title: "Customer Stories",
+            subtitle: "Discover how Analog Way products power stunning visual experiences for the world's most demanding live events and installations.",
+            parent: "home",
+            isGallery: true,
+            items: [
+                { id:"app_times_square_2026", name: "Dick Clark's New Year's Rockin' Eve 2026 - Times Square", image: "images/TimesSquare-RS4-2026.avif", description: "Jupiter Production Group used the Aquilon RS4 to drive LED visuals across four LED cubes, an LED railing and an LED dance floor for the longest telecast in the show's 50+ year history. The system handled performer content, branded visuals and broadcast feeds simultaneously - flawlessly.", usedProducts: [{ categoryId: 'live_premier', productId: 'aquilon_rs4'}], isNew: true, date: "March 2026" },
+                { id:"app_ct_github_2025", name: "Creative Technology Group adds Aquilon RS6 - GitHub Universe 2025", image: "images/CT-GitHub-Universe-2025.avif", description: "CT (NEP Live Events) expanded its inventory with multiple Aquilon RS6 systems, recently powering nine LED screens at GitHub Universe 2025 in San Francisco and three screens at Amazon AEPS in Seattle. The RS6 lets CT consolidate three legacy systems into a single, higher-resolution platform.", usedProducts: [{ categoryId: 'live_premier', productId: 'aquilon_rs6'}], isNew: true, date: "March 2026" },
+                { id:"app_walmart_hq_2026", name: "Walmart's New HQ - Landmark LED Auditorium", image: "images/Walmart-HQ-LED.avif", description: "Walmart's Bentonville headquarters features a 1,500-seat auditorium with a monumental LED wall displaying nearly six times 4K resolution. The integrated Analog Way system manages full-resolution playback, live cameras, presentations and Cisco Codec conferencing for global town halls and hybrid events.", usedProducts: [{ categoryId: 'picturall_mk2', productId: 'picturall_pro_mk2'}, { categoryId: 'live_premier', productId: 'aquilon_c_plus'}], isNew: true, date: "February 2026" },
+                { id:"app_dreamforce_2025", name: "Salesforce Dreamforce 2025 - San Francisco", image: "images/Salesforce-Dreamforce-2025.avif", description: "Two linked Aquilon RS6 systems drove big-screen content for the world's largest AI event. The dual setup handled nearly 52 inputs with full redundancy, supporting 16 demo devices and multiple destinations across LED walls, broadcast feeds and multiviewers - while replacing legacy multi-frame systems. Equipment provided by 4Wall Entertainment.", usedProducts: [{ categoryId: 'live_premier', productId: 'aquilon_rs6'}], isNew: true, date: "February 2026" },
+                { id:"app_mama_2025", name: "2025 MAMA Awards - Hong Kong", image: "images/MAMA-Awards-2025.avif", description: "The Aquilon RS6 and RC400T controller powered the main stage LED displays at the 27th MAMA Awards at Kai Tak Stadium, serving an audience exceeding 50,000 fans across two nights. \"Fully convinced of its performance, stability and ease of use.\" - Go Choi, LDS.", usedProducts: [{ categoryId: 'live_premier', productId: 'aquilon_rs6'}, { categoryId: 'controllers', productId: 'rc400t'}], isNew: true, date: "January 2026" },
+                { id:"app_circa_casino", name: "Circa Casino and Resort, Las Vegas", image: "images/CircaSportsBook.jpg", description: "The world's largest sportsbook and pool deck displays rely on Aquilon C and C+ processors to deliver pixel-perfect 24/7 content across multiple massive LED canvases.", usedProducts: [{ categoryId: 'live_premier', productId: 'aquilon_c'}, { categoryId: 'live_premier', productId: 'aquilon_c_plus'}] },
+                { id:"app_choctaw_link", name: "The Link - Digital Art Installation at Choctaw Casino & Resort", image: "images/I_Choctaw_Night Overall2(1).jpg", description: "A signature digital art installation combining Picturall Pro media servers and Aquilon C+ processing to drive immersive, generative visuals across a vast architectural canvas.", usedProducts: [{ categoryId: 'picturall_mk2', productId: 'picturall_pro_mk2'}, { categoryId: 'live_premier', productId: 'aquilon_c_plus'}] },
+                { id:"app_mohegan_canopy", name: "Mohegan Inspire Resort LED Canopy - Seoul", image: "images/inspire resort(3).jpg", description: "An immersive LED canopy display welcoming guests to the Mohegan Inspire resort, driven by Picturall Pro Mark II for flawless multi-screen synchronized playback.", usedProducts: [{ categoryId: 'picturall_mk2', productId: 'picturall_pro_mk2'}] },
+                { id:"app_stlouis_aq", name: "Entrance Experience at New St.Louis Aquarium", image: "images/New St.Louis Aquarium.jpg", description: "An immersive welcome experience powered by Picturall Pro, setting the tone for visitors with high-resolution underwater visuals from the moment they arrive.", usedProducts: [{ categoryId: 'picturall_mk2', productId: 'picturall_pro_mk2'}] },
+                { id:"app_destiny_worship", name: "The Destiny Worship Center", image: "images/DestinyLED001.jpg", description: "A house-of-worship venue trusting the Pulse 4K to deliver clean, reliable IMAG and graphics across the main LED wall every weekend.", usedProducts: [{ categoryId: 'midra_4k', productId: 'pulse_4k'}] },
+                { id:"app_comcast_philly", name: "Comcast Experience in Philadelphia", image: "images/Comcast.jpg", description: "Mission-critical Aquilon C+ and Picturall Pro driving the iconic Comcast Experience LED wall - one of the largest seamless 4K LED displays in North America.", usedProducts: [{ categoryId: 'live_premier', productId: 'aquilon_c_plus'}, { categoryId: 'picturall_mk2', productId: 'picturall_pro_mk2'}] },
+                { id:"app_nyc_corp_led", name: "Major New York City Corporate Auditorium", image: "images/M2 Install_auditorium_photo_credit_Fabian_Fernandez_ fabeaux.co.jpg", description: "A flagship NYC corporate auditorium powered by Aquilon C, supporting board meetings, town halls and immersive brand experiences on a single platform.", usedProducts: [{ categoryId: 'live_premier', productId: 'aquilon_c'}] }
+            ]
+          },
+          "news": {
+            title: "Latest News",
+            subtitle: "Firmware releases, product launches and the latest from Analog Way - keep up with what's new.",
+            parent: "home",
+            isGallery: true,
+            items: [
+                { id:"news_aquilon_fw_61", name: "Aquilon Firmware 6.1 - Fiber Link & New SDI Card", image: "images/CT-GitHub-Universe-2025.avif", description: "Released April 2026. Highlights: new fiber-based link solution enabling up to 500 m of inter-chassis connectivity, an 8-plug 3G/12G-SDI input card, automatic source failover for background sets, and major UX/UI improvements across Web RCS.", usedProducts: [{ categoryId: 'live_premier', productId: 'aquilon_rs6'}, { categoryId: 'live_premier', productId: 'aquilon_cmini'}, { categoryId: 'lp_accessories', productId: 'link_card_fiber'}, { categoryId: 'lp_accessories', productId: 'eight_sdi_in_card'}], isNew: true, date: "April 2026" },
+                { id:"news_coreplay_14", name: "CorePlay 1.4 - Multi-Unit Control", image: "images/New-Solo-FAV.PNG", description: "Released April 2026. CorePlay 1.4 brings multi-unit control, automatic discovery and primary/backup monitoring to the CorePlay Solo - streamlining synchronized playback and redundancy for live productions.", usedProducts: [{ categoryId: 'coreplay', productId: 'coreplay_solo'}], isNew: true, date: "April 2026" },
+                { id:"news_aquilon_cmini", name: "Introducing the Aquilon Cmini", image: "images/Aquilon-Cmini-FAV.avif", description: "The latest addition to the Aquilon family: a fully modular 4K/8K processor in a compact 3RU chassis. Up to 8 x 4K60p inputs, 12 x 4K60p outputs and the same uncompromised LivePremier performance - now in a smaller footprint.", usedProducts: [{ categoryId: 'live_premier', productId: 'aquilon_cmini'}], isNew: true, date: "2026" },
+                { id:"news_st2110_cards", name: "SMPTE ST 2110 input & output cards for Aquilon", image: "images/Carte-IN-2110.PNG", description: "Native SMPTE ST 2110 connectivity is now available across the Aquilon range. The new 25GbE input and output cards bring uncompressed 4K60 IP video, ST 2022-7 redundancy, PTP synchronization and NMOS discovery to LivePremier™ systems - bridging live event and broadcast workflows in a single platform.", usedProducts: [{ categoryId: 'lp_accessories', productId: 'st2110_in_card'}, { categoryId: 'lp_accessories', productId: 'st2110_out_card'}], isNew: true, date: "March 2026" },
+                { id:"news_infocomm_2026", name: "Meet us at InfoComm 2026 - Booth N6613", image: "images/AnalogWay_CorporateEvent_with_AquilonRS2_and_PicturallPro_2.jpg", description: "Visit Analog Way at InfoComm 2026 in Orlando, June 2026. Live demos of the LivePremier, Midra 4K, Picturall Mark II and CorePlay ranges - plus first hands-on time with the Aquilon Cmini.", usedProducts: [], isNew: true, date: "June 2026" }
+            ]
+          },
+           "end_users": {
+            title: "Our Clients",
+            subtitle: "Analog Way solutions are trusted by leading organizations worldwide for their most critical projects.",
+            parent: "home",
+            isLogoWall: true, 
+            logos: [ 
+                { name: "Airbus", image: "images/airbus.jpg" },
+                { name: "Allianz", image: "images/Allianz.PNG" },
+                { name: "Amazon", image: "images/Amazon.com.PNG" },
+                { name: "Apple", image: "images/apple.jpg" },
+                { name: "Audi", image: "images/audi.jpg" },
+                { name: "BMW", image: "images/BMW.jpg" }, 
+                { name: "Cisco", image: "images/cisco.PNG" },
+                { name: "Coca-Cola", image: "images/CocaCola.PNG" },
+                { name: "Crédit Agricole", image: "images/credit agricole.jpg" },
+                { name: "Dassault Systèmes", image: "images/Dassault Systeme.jpg" },
+                { name: "Disneyland", image: "images/Disneyland.jpg" },
+                { name: "Facebook", image: "images/facebook.png" }, 
+                { name: "FedEx", image: "images/FedEx.PNG" },
+                { name: "Google", image: "images/google.jpg" },
+                { name: "L'Oréal", image: "images/Oreal.png" }, 
+                { name: "Louis Vuitton", image: "images/Louis Vuitton.jpg" }, 
+                { name: "Mercedes-Benz", image: "images/Mercedes Benz.jpg" }, 
+                { name: "Messe Berlin", image: "images/Messe Berlin.jpg" },
+                { name: "Microsoft", image: "images/Microsoft.jpg" },
+                { name: "NASA", image: "images/Nasa.png" }, 
+                { name: "National Geographic", image: "images/National-Geographic.PNG" },
+                { name: "Nike", image: "images/Nike.jpg" },
+                { name: "Pepsi", image: "images/Pepsi.png" }, 
+                { name: "Porsche", image: "images/Porsche.jpg" }, 
+                { name: "Realmadrid", image: "images/Realmadrid.jpg" }, 
+                { name: "Safran", image: "images/Safran.jpg" }, 
+                { name: "Samsung", image: "images/Samsung.jpg" },
+                { name: "Sanofi", image: "images/Sanofi.jpg" },
+                { name: "Tate Modern", image: "images/Tate.jpg" }, 
+                { name: "The Royal Bank of Scotland", image: "images/The Royal Bank Scotland.jpg" }, 
+                { name: "Total", image: "images/Total.jpg" },
+                { name: "UEFA Champions League", image: "images/Champions League.jpg" },
+                { name: "United Nations", image: "images/United Nation.jpg" },
+                { name: "Volkswagen", image: "images/Volkswagen.jpg" }, 
+                { name: "World Health Organization", image: "images/World Health Organization.jpg" } 
+            ]
+          }
+        };
+
+        // DOM Elements
+        const views = {
+            home: document.getElementById('home-view'),
+            category: document.getElementById('category-view'),
+            productDetail: document.getElementById('product-detail-view'),
+            applications: document.getElementById('applications-view'),
+            applicationDetail: document.getElementById('application-detail-view'), 
+            endUsers: document.getElementById('end-users-view')
+        };
+
+        const categoriesProductsGridEl = document.getElementById('categories-products-grid');
+        const categoriesCustomerGridEl = document.getElementById('categories-customer-grid');
+        const productsGridEl = document.getElementById('products-grid'); 
+        const applicationsGridEl = document.getElementById('applications-grid');
+        const appProductsGridEl = document.getElementById('app-products-grid');
+        const endUsersGridEl = document.getElementById('end-users-grid');
+        
+        const categoryTitleEl = document.getElementById('category-title');
+        const categorySubtitleEl = document.getElementById('category-subtitle'); 
+        
+        const productDetailTitleEl = document.getElementById('product-detail-title');
+        const productDetailRefEl = document.getElementById('product-detail-ref');
+        const productDetailImgMainEl = document.getElementById('product-detail-img-main');
+        const productThumbFrontEl = document.getElementById('product-thumb-front');
+        const productThumbBackEl = document.getElementById('product-thumb-back');
+        const productDetailDescriptionEl = document.getElementById('product-detail-description');
+        const productSpecsListEl = document.getElementById('product-specs-list');
+        const productActionsContainer = document.getElementById('product-detail-actions');
+
+        const applicationDetailTitleEl = document.getElementById('application-detail-title');
+        const applicationDetailImageEl = document.getElementById('application-detail-image');
+        const applicationDetailDescriptionEl = document.getElementById('application-detail-description');
+        const applicationsTitleEl = document.getElementById('applications-title'); 
+        const endUsersTitleEl = document.getElementById('end-users-title'); 
+
+        const homeBtn = document.getElementById('home-btn');
+        const backBtn = document.getElementById('back-btn');
+        const headerLogoLink = document.getElementById('header-logo-link');
+        const headerCtaButton = document.querySelector('.nav-button.primary');
+
+
+        const breadcrumbEl = document.getElementById('breadcrumb');
+        
+        let historyStack = []; 
+        let currentProductForThumbs = null; 
+
+        // --- Modal Logic (General Info & Lightbox) ---
+        const infoModal = document.getElementById('custom-modal');
+        const infoModalTitle = document.getElementById('modal-title');
+        const infoModalMessage = document.getElementById('modal-message');
+        const infoModalCloseBtn = document.getElementById('modal-close-btn');
+
+        const lightboxModal = document.getElementById('image-lightbox-modal');
+        const lightboxImageEl = document.getElementById('lightbox-image');
+        const lightboxCaptionEl = document.getElementById('lightbox-caption-text');
+        const lightboxCloseBtn = document.getElementById('lightbox-modal-close-btn');
+
+
+        function showModal(title, message) {
+            infoModalTitle.textContent = title;
+            infoModalMessage.innerHTML = message; 
+            infoModal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            infoModal.style.display = 'none';
+        }
+        infoModalCloseBtn.addEventListener('click', closeModal);
+        
+        function showInfoModal(type = 'general_info', productName = '') { 
+            let title = "More Information";
+            let message = "For more details about our products and solutions, please speak to one of our representatives on the stand. They will be happy to assist you!";
+            
+            if (type === 'ask_team') { 
+                title = "Ask Our Team";
+                message = "Interested in learning more? Our team is here on the stand to answer all your questions. Come and chat with us!";
+            } else if (type === 'datasheet') {
+                title = "Product Datasheet";
+                message = "For detailed technical specifications, please ask a member of our team for a digital copy of the datasheet or visit the Analog Way website.";
+            } else if (type === 'ask_team_product' && productName) {
+                 title = `More Info: ${productName}`;
+                 message = `For more information about ${productName}, please speak to one of our representatives on the stand. They will be happy to assist you!`;
+            }
+            showModal(title, message);
+        }
+
+        function showImageLightbox(imageUrl, title, description = '') {
+            lightboxImageEl.src = imageUrl;
+            lightboxImageEl.alt = title;
+            let captionHTML = `<h4>${title}</h4>`;
+            if (description) {
+                captionHTML += `<p>${description}</p>`;
+            }
+            lightboxCaptionEl.innerHTML = captionHTML;
+            lightboxModal.style.display = 'flex';
+            lightboxModal.classList.remove('fade-out');
+        }
+
+        function closeImageLightbox() {
+            lightboxModal.classList.add('fade-out');
+            setTimeout(() => {
+                lightboxModal.style.display = 'none';
+            }, 300); 
+        }
+        lightboxCloseBtn.addEventListener('click', closeImageLightbox);
+        lightboxModal.addEventListener('click', (event) => {
+            if (event.target === lightboxModal || event.target === lightboxImageEl ) {
+                closeImageLightbox();
+            }
+        });
+
+        // --- In-app PDF datasheet viewer ---
+        const datasheetViewerModal = document.getElementById('datasheet-viewer-modal');
+        const datasheetViewerFrame = document.getElementById('datasheet-viewer-frame');
+        const datasheetViewerTitle = document.getElementById('datasheet-viewer-title');
+        const datasheetViewerCloseBtn = document.getElementById('datasheet-viewer-close-btn');
+
+        function openDatasheetViewer(pdfPath, productName) {
+            datasheetViewerTitle.textContent = productName ? `${productName} — Datasheet` : 'Datasheet';
+            // Hint browser PDF viewers to fit the page width.
+            datasheetViewerFrame.src = `${pdfPath}#view=FitH&toolbar=1`;
+            datasheetViewerModal.classList.remove('fade-out');
+            datasheetViewerModal.classList.add('is-open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDatasheetViewer() {
+            datasheetViewerModal.classList.add('fade-out');
+            setTimeout(() => {
+                datasheetViewerModal.classList.remove('is-open', 'fade-out');
+                datasheetViewerFrame.src = 'about:blank';
+                document.body.style.overflow = '';
+            }, 250);
+        }
+
+        datasheetViewerCloseBtn.addEventListener('click', closeDatasheetViewer);
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && datasheetViewerModal.classList.contains('is-open')) {
+                closeDatasheetViewer();
+            }
+        });
+
+        const placeholderImage = 'https://placehold.co/400x300/CCCCCC/FFFFFF?text=Image+Unavailable';
+
+        // Maps product IDs to datasheet filenames in /datasheets.
+        // Most product IDs map 1:1 to a PDF of the same name; aliases below cover the exceptions.
+        const datasheetAliases = {
+            dph104_lp: 'dph104',
+            dph104_pict: 'dph104'
+        };
+        const availableDatasheets = new Set([
+            'aquilon_rs6', 'aquilon_rs5', 'aquilon_rs4', 'aquilon_rs3', 'aquilon_rs2', 'aquilon_rs1', 'aquilon_rs_alpha',
+            'aquilon_c', 'aquilon_c_plus', 'aquilon_cmax', 'aquilon_cmini',
+            'zenith_100', 'zenith_200',
+            'eikos_4k', 'pulse_4k', 'quickmatrix_4k', 'quickvu_4k',
+            'picturall_pro_mk2', 'picturall_quad_mk2', 'picturall_quad_compact_mk2', 'picturall_twin_compact_mk2',
+            'rc400t', 'control_box3', 'shot_box2',
+            'dph104'
+        ]);
+        function getDatasheetPath(productId) {
+            const slug = datasheetAliases[productId] || productId;
+            return availableDatasheets.has(slug) ? `datasheets/${slug}.pdf` : null;
+        }
+
+
+        function markNoImage(imgElement) {
+            // Mosaic cells fail silently — a broken logo just leaves an empty cell,
+            // never marks the whole card as "No picture available".
+            if (imgElement.closest('.client-logo-mosaic-cell')) {
+                imgElement.remove();
+                return;
+            }
+            const wrapper = imgElement.closest(
+                '.card-image-wrapper, .product-image-main-wrapper, .product-image-thumb-wrapper'
+            );
+            if (wrapper) {
+                wrapper.classList.add('no-image');
+            } else {
+                imgElement.src = placeholderImage;
+            }
+        }
+
+        function applyImageFallback(imgElement, preferredSrc) {
+            // Reset any previous "no-image" state when re-using the element (e.g. thumbnails).
+            // Skip the lookup for mosaic cells so we don't accidentally clear the parent card's state.
+            if (!imgElement.closest('.client-logo-mosaic-cell')) {
+                const wrapper = imgElement.closest(
+                    '.card-image-wrapper, .product-image-main-wrapper, .product-image-thumb-wrapper'
+                );
+                if (wrapper) wrapper.classList.remove('no-image');
+            }
+
+            if (!preferredSrc) {
+                markNoImage(imgElement);
+                return;
+            }
+
+            const dotIdx = preferredSrc.lastIndexOf('.');
+            const ext = dotIdx >= 0 ? preferredSrc.slice(dotIdx).toLowerCase() : '';
+            const altExt = ext === '.jpg' ? '.png' : '.jpg';
+            const baseName = dotIdx >= 0 ? preferredSrc.substring(0, dotIdx) : preferredSrc;
+
+            imgElement.src = preferredSrc;
+            imgElement.onerror = function() {
+                this.onerror = null;
+                this.src = baseName + altExt;
+                this.onerror = function() {
+                    this.onerror = null;
+                    markNoImage(this);
+                };
+            };
+        }
+
+
+        // --- Navigation & View Management ---
+        function updateBreadcrumb(viewId, data) {
+            breadcrumbEl.innerHTML = ''; 
+            const homeLink = document.createElement('a');
+            homeLink.href = '#';
+            homeLink.textContent = 'Home';
+            homeLink.onclick = (e) => { e.preventDefault(); navigateToHome(); };
+            breadcrumbEl.appendChild(homeLink);
+
+            if (viewId === 'home') {
+                breadcrumbEl.style.display = 'none';
+                return;
+            }
+            breadcrumbEl.style.display = 'flex';
+
+            let separator = document.createElement('span');
+            separator.className = 'breadcrumb-separator';
+            separator.textContent = '›';
+            breadcrumbEl.appendChild(separator);
+
+            if(data.parentCategoryId) {
+                const parentCatLink = document.createElement('a');
+                parentCatLink.href = '#';
+                parentCatLink.textContent = productsData[data.parentCategoryId].title;
+                parentCatLink.onclick = (e) => { e.preventDefault(); navigateToCategory(data.parentCategoryId); };
+                breadcrumbEl.appendChild(parentCatLink);
+
+                separator = document.createElement('span');
+                separator.className = 'breadcrumb-separator';
+                separator.textContent = '›';
+                breadcrumbEl.appendChild(separator);
+            }
+
+            const currentViewData = productsData[data.categoryId || viewId]; 
+            
+            if (currentViewData) {
+                const categoryLinkText = currentViewData.title;
+                if (viewId === 'category' || viewId === 'applications' || viewId === 'endUsers' || viewId === 'applicationDetail') {
+                    const currentSpan = document.createElement('span');
+                    currentSpan.textContent = (viewId === 'applicationDetail') ? data.appName : categoryLinkText;
+                    breadcrumbEl.appendChild(currentSpan);
+                } else if (viewId === 'productDetail' && data.categoryId && data.productId) {
+                    const parentCategoryData = productsData[data.categoryId];
+                    const product = parentCategoryData.products.find(p => p.id === data.productId);
+
+                    if (parentCategoryData && product) { 
+                        const categoryLink = document.createElement('a');
+                        categoryLink.href = '#';
+                        categoryLink.textContent = parentCategoryData.title;
+                        categoryLink.onclick = (e) => { e.preventDefault(); navigateToCategory(data.categoryId); };
+                        breadcrumbEl.appendChild(categoryLink);
+
+                        const separator2 = document.createElement('span');
+                        separator2.className = 'breadcrumb-separator';
+                        separator2.textContent = '›';
+                        breadcrumbEl.appendChild(separator2);
+
+                        const productSpan = document.createElement('span');
+                        productSpan.textContent = product.name;
+                        breadcrumbEl.appendChild(productSpan);
+                    } else {
+                        const errorSpan = document.createElement('span');
+                        errorSpan.textContent = "Details";
+                        breadcrumbEl.appendChild(errorSpan);
+                    }
+                }
+            } else {
+                const fallbackSpan = document.createElement('span');
+                fallbackSpan.textContent = viewId.charAt(0).toUpperCase() + viewId.slice(1); 
+                breadcrumbEl.appendChild(fallbackSpan);
+            }
+        }
+
+        function showView(viewId, data = {}) {
+            for (const key in views) {
+                views[key].classList.remove('active');
+            }
+            const currentView = views[viewId];
+            if (currentView) {
+                currentView.classList.add('active');
+                window.scrollTo(0, 0);
+
+                let shouldPushToHistory = true;
+                if (historyStack.length > 0) {
+                    const lastEntry = historyStack[historyStack.length - 1];
+                    if (lastEntry.viewId === viewId && JSON.stringify(lastEntry.data) === JSON.stringify(data)) {
+                        shouldPushToHistory = false; 
+                    }
+                }
+                
+                if (viewId === "home") { 
+                    historyStack = [{ viewId: "home", data: {categoryId: "home"} }]; 
+                } else if (shouldPushToHistory) {
+                    historyStack.push({ viewId, data });
+                }
+                updateBreadcrumb(viewId, data);
+
+            } else {
+                console.error("View not found:", viewId);
+                navigateToHome(); 
+            }
+            updateBackButtonState();
+        }
+        
+        function updateBackButtonState() {
+            if (historyStack.length <= 1) { 
+                backBtn.disabled = true;
+            } else {
+                backBtn.disabled = false;
+            }
+        }
+
+        function buildClientLogoMosaic() {
+            const featuredNames = ["Microsoft", "Google", "NASA", "Amazon", "BMW", "Coca-Cola", "Cisco", "Disneyland"];
+            const allLogos = (productsData.end_users && productsData.end_users.logos) || [];
+            const byName = {};
+            allLogos.forEach(l => { byName[l.name] = l; });
+
+            const mosaic = document.createElement('div');
+            mosaic.className = 'client-logo-mosaic';
+
+            featuredNames.forEach(name => {
+                const logo = byName[name];
+                const cell = document.createElement('div');
+                cell.className = 'client-logo-mosaic-cell';
+                if (logo) {
+                    const img = document.createElement('img');
+                    img.alt = logo.name;
+                    applyImageFallback(img, logo.image);
+                    cell.appendChild(img);
+                }
+                mosaic.appendChild(cell);
+            });
+
+            return mosaic;
+        }
+
+        function populateHomeView() {
+            const data = productsData.home;
+            categoriesProductsGridEl.innerHTML = ''; 
+            categoriesCustomerGridEl.innerHTML = '';
+
+            data.categories.forEach(category => {
+                const card = document.createElement('div');
+                card.className = 'card category-card';
+                const imgWrapper = document.createElement('div');
+                imgWrapper.className = 'card-image-wrapper';
+
+                if (category.id === 'end_users') {
+                    imgWrapper.style.backgroundImage = 'none';
+                    imgWrapper.style.backgroundColor = 'var(--white)';
+                    imgWrapper.style.padding = '0';
+                    imgWrapper.appendChild(buildClientLogoMosaic());
+                } else {
+                    const img = document.createElement('img');
+                    img.alt = category.name;
+
+                    if (category.id === 'applications' || category.id === 'news') {
+                        imgWrapper.style.backgroundImage = 'none';
+                        imgWrapper.style.backgroundColor = 'var(--light-gray)';
+                        img.style.width = '100%';
+                        img.style.height = '100%';
+                        img.style.maxWidth = 'none';
+                        img.style.maxHeight = 'none';
+                        img.style.objectFit = 'cover';
+                        img.style.padding = '0';
+                    }
+
+                    applyImageFallback(img, category.image);
+                    imgWrapper.appendChild(img);
+                }
+                
+                card.innerHTML = `
+                    <div class="card-content">
+                        <h3 class="card-title">${category.name}</h3>
+                        <p class="card-subtitle">${category.description || ''}</p>
+                    </div>
+                `;
+                card.insertBefore(imgWrapper, card.firstChild);
+                card.onclick = () => navigateToCategory(category.id);
+                
+                if (category.section === "customer") {
+                    categoriesCustomerGridEl.appendChild(card);
+                } else { 
+                    categoriesProductsGridEl.appendChild(card);
+                }
+            });
+        }
+
+        function populateCategoryView(categoryId) {
+            const categoryData = productsData[categoryId];
+            if (!categoryData) {
+                console.error("Invalid category data for:", categoryId);
+                navigateToHome(); 
+                return;
+            }
+
+            categoryTitleEl.textContent = categoryData.title;
+            categorySubtitleEl.textContent = categoryData.subtitle || `Explore products in the ${categoryData.title} series.`;
+            productsGridEl.innerHTML = ''; 
+
+            if (categoryData.isGroupedList) { 
+                const inputCards = categoryData.products.filter(p => p.type === 'card-in');
+                const outputCards = categoryData.products.filter(p => p.type === 'card-out');
+                const otherAccessories = categoryData.products.filter(p => p.type === 'other');
+
+                if (inputCards.length > 0) {
+                    productsGridEl.innerHTML += `<h2 class="subsection-title" style="grid-column: 1 / -1;">Input Cards</h2>`;
+                    inputCards.forEach(product => productsGridEl.appendChild(createProductCard(categoryId, product)));
+                }
+                if (outputCards.length > 0) {
+                    productsGridEl.innerHTML += `<h2 class="subsection-title" style="grid-column: 1 / -1;">Output Cards</h2>`;
+                    outputCards.forEach(product => productsGridEl.appendChild(createProductCard(categoryId, product)));
+                }
+                 if (otherAccessories.length > 0) {
+                    productsGridEl.innerHTML += `<h2 class="subsection-title" style="grid-column: 1 / -1;">Other Accessories</h2>`;
+                    otherAccessories.forEach(product => productsGridEl.appendChild(createProductCard(categoryId, product)));
+                }
+
+            } else if (categoryData.products && categoryData.products.length > 0) {
+                categoryData.products.forEach(product => {
+                    productsGridEl.appendChild(createProductCard(categoryId, product));
+                });
+            } else {
+                productsGridEl.innerHTML = '<p style="grid-column: 1 / -1;" class="text-center text-gray-500">No products found in this category.</p>';
+            }
+        }
+        
+        function createProductCard(categoryId, product) {
+            const card = document.createElement('div');
+            card.className = 'card product-card';
+
+            const imgWrapper = document.createElement('div');
+            imgWrapper.className = 'card-image-wrapper';
+
+            if (product.isNew) {
+                const badge = document.createElement('span');
+                badge.className = 'new-badge';
+                badge.textContent = 'NEW';
+                imgWrapper.appendChild(badge);
+            }
+
+            const img = document.createElement('img');
+            img.alt = product.name;
+            applyImageFallback(img, product.imageFront);
+            imgWrapper.appendChild(img);
+
+            card.innerHTML = `
+                <div class="card-content">
+                    <div>
+                       <h3 class="card-title">${product.name}</h3>
+                       <p class="card-subtitle">Ref: ${product.ref}</p>
+                    </div>
+                </div>
+            `;
+            card.insertBefore(imgWrapper, card.firstChild);
+            card.onclick = () => navigateToProductDetail(categoryId, product.id);
+            return card;
+        }
+
+        
+        function setMainImage(imageType) {
+            if (!currentProductForThumbs) return;
+            const mainImageElement = document.getElementById('product-detail-img-main');
+            let imagePath = (imageType === 'front') ? currentProductForThumbs.imageFront : currentProductForThumbs.imageBack;
+            
+            applyImageFallback(mainImageElement, imagePath);
+            
+            mainImageElement.alt = `${currentProductForThumbs.name} - ${imageType === 'front' ? 'Front View' : 'Rear View'}`;
+            mainImageElement.onclick = () => showImageLightbox(mainImageElement.src, currentProductForThumbs.name, imageType === 'front' ? "Front View" : "Rear View");
+
+            document.getElementById('thumb-front-wrapper').classList.toggle('active', imageType === 'front');
+            document.getElementById('thumb-back-wrapper').classList.toggle('active', imageType === 'back');
+        }
+
+        function populateProductDetailView(categoryId, productId) {
+            const categoryData = productsData[categoryId];
+            const product = categoryData.products.find(p => p.id === productId);
+            if (!product) {
+                console.error("Product not found:", productId, "in category:", categoryId);
+                navigateToHome(); 
+                return;
+            }
+            currentProductForThumbs = product; 
+
+            productDetailTitleEl.textContent = product.name;
+            productDetailRefEl.textContent = `REF: ${product.ref}`;
+            
+            const thumbFrontImg = document.getElementById('product-thumb-front');
+            applyImageFallback(thumbFrontImg, product.imageFront);
+            thumbFrontImg.alt = `Front view thumbnail of ${product.name}`;
+            document.getElementById('thumb-front-wrapper').onclick = () => setMainImage('front');
+
+            const thumbBackImg = document.getElementById('product-thumb-back');
+             applyImageFallback(thumbBackImg, product.imageBack);
+            thumbBackImg.alt = `Rear view thumbnail of ${product.name}`;
+            document.getElementById('thumb-back-wrapper').onclick = () => setMainImage('back');
+            
+            setMainImage('front'); 
+
+            productDetailDescriptionEl.textContent = product.description || "No specific description available. Please refer to official documentation for details.";
+
+            productSpecsListEl.innerHTML = '';
+            if (product.specs && product.specs.length > 0) {
+                product.specs.forEach(spec => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = spec;
+                    productSpecsListEl.appendChild(listItem);
+                });
+                document.getElementById('product-specs').style.display = 'block';
+            } else {
+                document.getElementById('product-specs').style.display = 'none';
+            }
+            
+            productActionsContainer.innerHTML = ''; 
+
+            const mainProductCategoryIds = ["live_premier", "alta_4k", "midra_4k", "picturall_mk2", "coreplay", "controllers"];
+            if (mainProductCategoryIds.includes(categoryId)) {
+                const datasheetPath = getDatasheetPath(product.id);
+                const datasheetButton = document.createElement('button');
+                datasheetButton.className = 'btn btn-primary';
+                if (datasheetPath) {
+                    datasheetButton.onclick = () => openDatasheetViewer(datasheetPath, product.name);
+                    datasheetButton.innerHTML = `
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        View Datasheet
+                    `;
+                } else {
+                    datasheetButton.onclick = () => showInfoModal('datasheet');
+                    datasheetButton.innerHTML = `
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        View Datasheet Info
+                    `;
+                }
+                productActionsContainer.appendChild(datasheetButton);
+            }
+
+            const moreInfoButton = document.createElement('button');
+            moreInfoButton.className = 'btn btn-secondary';
+            moreInfoButton.onclick = () => showInfoModal('ask_team_product', product.name); 
+            moreInfoButton.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-help-circle"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                More Info
+            `;
+            productActionsContainer.appendChild(moreInfoButton);
+        }
+
+
+        function populateApplicationsView(categoryId) {
+            const categoryData = productsData[categoryId]; 
+             if (!categoryData || !categoryData.isGallery) {
+                console.error("Invalid gallery data for:", categoryId);
+                navigateToHome(); 
+                return;
+            }
+            applicationsTitleEl.textContent = categoryData.title; 
+            document.querySelector('#applications-view .section-subtitle').textContent = categoryData.subtitle || "See how our products are used in real-world installations";
+
+            applicationsGridEl.innerHTML = '';
+            if (categoryData.items && categoryData.items.length > 0) {
+                categoryData.items.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'application-card card';
+                    const imgWrapper = document.createElement('div');
+                    imgWrapper.className = 'card-image-wrapper';
+                    if (item.isNew) {
+                        const badge = document.createElement('span');
+                        badge.className = 'new-badge';
+                        badge.textContent = 'NEW';
+                        imgWrapper.appendChild(badge);
+                    }
+                    const img = document.createElement('img');
+                    img.alt = item.name;
+                    img.className = 'application-image';
+                    applyImageFallback(img, item.image);
+
+                    imgWrapper.appendChild(img);
+
+                    const dateLine = item.date ? `<p class="card-date">${item.date}</p>` : '';
+                    const trimmedDesc = item.description.length > 180 ? item.description.substring(0, 180).trim() + '...' : item.description;
+                    card.innerHTML = `
+                        <div class="application-content card-content">
+                            ${dateLine}
+                            <h3 class="application-title card-title">${item.name}</h3>
+                            <p class="application-description">${trimmedDesc}</p>
+                        </div>
+                    `;
+                    card.insertBefore(imgWrapper, card.firstChild);
+                    card.onclick = () => navigateToApplicationDetail(item.id);
+                    applicationsGridEl.appendChild(card);
+                });
+            } else {
+                 applicationsGridEl.innerHTML = '<p class="col-span-full text-center text-gray-500">No items to display at this time.</p>';
+            }
+        }
+        
+        function findGalleryItem(appId) {
+            const galleryCategories = ['applications', 'news'];
+            for (const catId of galleryCategories) {
+                const cat = productsData[catId];
+                if (cat && cat.items) {
+                    const found = cat.items.find(item => item.id === appId);
+                    if (found) return { item: found, categoryId: catId };
+                }
+            }
+            return null;
+        }
+
+        function populateApplicationDetailView(appId) {
+            const result = findGalleryItem(appId);
+            if (!result) {
+                console.error("Application not found:", appId);
+                navigateToCategory('applications');
+                return;
+            }
+            const appData = result.item;
+            const isNews = result.categoryId === 'news';
+
+            applicationDetailTitleEl.textContent = appData.name;
+            applicationDetailDescriptionEl.textContent = appData.description;
+            applyImageFallback(applicationDetailImageEl, appData.image);
+
+            const headingEl = document.getElementById('app-products-heading');
+            const sectionEl = document.getElementById('app-products-section');
+            if (isNews) {
+                headingEl.textContent = appData.date ? `Related Products - ${appData.date}` : 'Related Products';
+            } else {
+                headingEl.textContent = 'Products Used In This Project';
+            }
+
+            appProductsGridEl.innerHTML = '';
+            if(appData.usedProducts && appData.usedProducts.length > 0) {
+                sectionEl.style.display = 'block';
+                appProductsGridEl.style.display = '';
+                appData.usedProducts.forEach(usedProd => {
+                    const category = productsData[usedProd.categoryId];
+                    if(category && category.products) {
+                         const product = category.products.find(p => p.id === usedProd.productId);
+                         if (product) {
+                             appProductsGridEl.appendChild(createProductCard(usedProd.categoryId, product));
+                         }
+                    }
+                });
+            } else {
+                sectionEl.style.display = 'none';
+                appProductsGridEl.style.display = 'none';
+            }
+
+        }
+
+        function populateEndUsersView(categoryId) {
+            const categoryData = productsData[categoryId]; 
+            if (!categoryData || !categoryData.isLogoWall) {
+                console.error("Invalid logo wall data for:", categoryId);
+                navigateToHome(); 
+                return;
+            }
+            endUsersTitleEl.textContent = categoryData.title; 
+            document.querySelector('#end-users-view .section-subtitle').textContent = categoryData.subtitle || "Our solutions power experiences for the world's most demanding organizations";
+            
+            endUsersGridEl.innerHTML = '';
+            if (categoryData.logos && categoryData.logos.length > 0) {
+                categoryData.logos.forEach(logo => {
+                    const logoDiv = document.createElement('div');
+                    logoDiv.className = 'logo-item'; 
+                    const img = document.createElement('img'); 
+                    img.alt = logo.name;
+                    applyImageFallback(img, logo.image); 
+                    logoDiv.appendChild(img); 
+                    endUsersGridEl.appendChild(logoDiv);
+                });
+            } else {
+                 endUsersGridEl.innerHTML = '<p class="col-span-full text-center text-gray-500">Client information is currently unavailable.</p>';
+            }
+        }
+        
+        function populateFooterLinks() {
+            // Footer has been removed.
+        }
+
+        // --- Navigation Functions ---
+        function navigateToHome() {
+            populateHomeView();
+            showView('home', { categoryId: "home" }); 
+        }
+
+        function navigateToCategory(categoryId) {
+            const categoryData = productsData[categoryId];
+            if (!categoryData) {
+                console.error("Category not found:", categoryId);
+                navigateToHome();
+                return;
+            }
+
+            if (categoryData.isGroupedList || categoryData.isProductList) {
+                populateCategoryView(categoryId);
+                showView('category', { categoryId });
+            } else if (categoryData.isGallery) { 
+                populateApplicationsView(categoryId); 
+                showView('applications', { categoryId, parentCategoryId: 'home' });
+            } else if (categoryData.isLogoWall) { 
+                populateEndUsersView(categoryId); 
+                showView('endUsers', { categoryId });
+            } else {
+                console.warn("Unhandled category type or structure:", categoryId);
+                navigateToHome();
+            }
+        }
+        
+        function navigateToApplicationDetail(appId) {
+            const result = findGalleryItem(appId);
+            if (result) {
+                populateApplicationDetailView(appId);
+                showView('applicationDetail', { categoryId: result.categoryId, appId: appId, appName: result.item.name, parentCategoryId: 'home' });
+            }
+        }
+
+        function navigateToProductDetail(categoryId, productId) {
+            populateProductDetailView(categoryId, productId);
+            let navData = { categoryId, productId };
+            const parentCat = productsData[categoryId].parent;
+            if (parentCat) {
+                navData.parentCategoryId = parentCat;
+            }
+            showView('productDetail', navData);
+        }
+
+        function navigateBack() {
+            if (historyStack.length > 1) {
+                historyStack.pop(); 
+                const previousState = historyStack[historyStack.length - 1]; 
+                
+                for (const key in views) {
+                    views[key].classList.remove('active');
+                }
+
+                if (previousState.viewId === 'home') {
+                    populateHomeView(); 
+                    views.home.classList.add('active'); 
+                } else if (previousState.viewId === 'category') {
+                    populateCategoryView(previousState.data.categoryId);
+                    views.category.classList.add('active');
+                } else if (previousState.viewId === 'productDetail') {
+                    populateProductDetailView(previousState.data.categoryId, previousState.data.productId);
+                    views.productDetail.classList.add('active');
+                } else if (previousState.viewId === 'applications') {
+                    populateApplicationsView(previousState.data.categoryId);
+                    views.applications.classList.add('active');
+                } else if (previousState.viewId === 'applicationDetail') {
+                     populateApplicationDetailView(previousState.data.appId);
+                     views.applicationDetail.classList.add('active');
+                } else if (previousState.viewId === 'endUsers') {
+                    populateEndUsersView(previousState.data.categoryId);
+                    views.endUsers.classList.add('active');
+                }
+                updateBreadcrumb(previousState.viewId, previousState.data); 
+                window.scrollTo(0,0);
+            }
+            updateBackButtonState(); 
+        }
+
+        // Attach events
+        homeBtn.addEventListener('click', navigateToHome);
+        headerLogoLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            navigateToHome();
+        });
+        backBtn.addEventListener('click', navigateBack);
+        
+        if (headerCtaButton) { 
+            headerCtaButton.onclick = () => showInfoModal('ask_team');
+        }
+
+        navigateToHome(); 
+
+    </script>
+</body>
+</html>
