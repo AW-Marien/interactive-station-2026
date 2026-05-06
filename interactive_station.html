@@ -1018,7 +1018,7 @@
                  <img src="images/logo-horizontal.png" alt="Analog Way Logo" class="logo-image" height="20" width="auto">
             </a>
             <nav class="nav-buttons">
-                <button id="home-btn" class="nav-button">
+                <button id="home-btn" class="nav-button" style="display: none;">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                         <polyline points="9 22 9 12 15 12 15 22"></polyline>
@@ -2287,13 +2287,10 @@
         }
         
         function updateBackButtonState() {
-            if (historyStack.length <= 1) {
-                backBtn.disabled = true;
-                backBtn.style.display = 'none';
-            } else {
-                backBtn.disabled = false;
-                backBtn.style.display = '';
-            }
+            const onHome = historyStack.length <= 1;
+            backBtn.disabled = onHome;
+            backBtn.style.display = onHome ? 'none' : '';
+            homeBtn.style.display = onHome ? 'none' : '';
         }
 
         function buildClientLogoMosaic() {
